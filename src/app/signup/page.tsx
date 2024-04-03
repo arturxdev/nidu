@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Label } from "@/components/ui/label";
-import { signup } from "../../../actions/authActions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { signup } from "@/services/auth";
 
 export default function Signup() {
   return (
@@ -45,7 +45,7 @@ export default function Signup() {
                 <Input
                   name="username"
                   id="username"
-                  type={"email"}
+                  type={"username"}
                   placeholder="m@example.com"
                   required
                 />

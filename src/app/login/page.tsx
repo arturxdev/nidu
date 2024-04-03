@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Label } from "@/components/ui/label";
-import { login } from "../../../actions/authActions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { login } from "@/services/auth";
 
 export default function Login() {
   return (

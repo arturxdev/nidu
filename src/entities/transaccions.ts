@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const transactionSchema = z.object({
   id: z.string(),
+  userId: z.string(),
   bankId: z.string(),
   bank: z.string(),
   amount: z.number().nullable(),

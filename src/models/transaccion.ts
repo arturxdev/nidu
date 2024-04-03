@@ -1,9 +1,9 @@
-import { Transaction } from '@/entities/transaccions';
 import { Schema, model, models } from 'mongoose';
 import toJSON from './plugins/toJSON';
 const transactionSchema = new Schema({
   bankId: { type: String, required: true, unique: true },
   bank: { type: String, required: true },
+  userId: { type: String, required: true },
   amount: Number,
   date: Date,
   status: String,

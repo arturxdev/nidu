@@ -5,8 +5,10 @@ import connectMongo from '@/lib/mongoose';
 import { TransactionModel } from '@/models/transaccion';
 dayjs.extend(customParseFormat)
 
-export async function processBBVACredit(id: string, file: File) {
+export async function processBBVACredit(userId: string, file: File) {
+  console.log('processing file')
   try {
+    console.log(userId)
     await connectMongo()
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -32,6 +34,7 @@ export async function processBBVACredit(id: string, file: File) {
       }
       const payload = {
         bankId,
+        userId,
         bank: 'bbva',
         card: 'credit',
         type: data[2] ? 'outcome' : 'income',
@@ -46,9 +49,10 @@ export async function processBBVACredit(id: string, file: File) {
         console.log('operation updated')
         continue;
       }
-      console.log(payload)
+      // console.log(payload)
       const operationSaved = await TransactionModel.create({ ...payload })
-      console.log(operationSaved)
+      // console.log(operationSaved)
+      console.log('operation saved')
     }
     return
   } catch (error) {

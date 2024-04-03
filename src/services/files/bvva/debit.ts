@@ -5,7 +5,7 @@ import connectMongo from '@/lib/mongoose';
 import { TransactionModel } from '@/models/transaccion';
 dayjs.extend(customParseFormat)
 
-export async function processBBVADebit(id: string, file: File) {
+export async function processBBVADebit(userId: string, file: File) {
   await connectMongo()
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
@@ -26,6 +26,7 @@ export async function processBBVADebit(id: string, file: File) {
     const bankId = `${data[0]}/${amount}/${data[4].replace(/,/g, '')}`
     const payload = {
       bankId,
+      userId,
       bank: 'bbva',
       card: 'debit',
       type: data[2] ? 'outcome' : 'income',
