@@ -1,0 +1,127 @@
+.homeContainer {
+  padding: 24px;
+}
+
+.dashboardGrid {
+  --dashboard-grid-height: 120px;
+  --dashboard-grid-gap: 16px;
+  --dashboard-grid-columns: 16;
+
+  padding: 16px;
+  grid-gap: var(--dashboard-grid-gap);
+  display: grid;
+  gap: var(--dashboard-grid-gap);
+  grid-auto-flow: row dense;
+  grid-auto-rows: var(--dashboard-grid-height);
+  grid-template-columns: repeat(var(--dashboard-grid-columns), 1fr);
+
+  .dashboardCard {
+    border-radius: 12px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+
+    &.rowSm {
+      grid-row-start: span 1;
+    }
+
+    &.rowMd {
+      grid-row-start: span 2;
+    }
+
+    &.rowLg {
+      grid-row-start: span 3;
+    }
+
+    &.rowXl {
+      grid-row-start: span 4;
+    }
+
+    &.colSm {
+      grid-column-start: span 2;
+    }
+
+    &.col3 {
+      grid-column-start: span 3;
+    }
+
+    &.colMd {
+      grid-column-start: span 4;
+    }
+
+    &.col5 {
+      grid-column-start: span 5;
+    }
+
+    &.colLg {
+      grid-column-start: span 6;
+    }
+
+    &.colXl {
+      grid-column-start: span 8;
+    }
+
+    .cardHeader {
+      align-items: center;
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px 8px 16px;
+
+      .cardTitle {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 2px;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+    }
+
+    .cardModule {
+      flex-grow: 1;
+      overflow: scroll;
+      padding: 0 16px 8px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .dashboardGrid {
+    //--dashboard-grid-columns: 2;
+
+    .dashboardCard {
+      &.md {
+        grid-column-start: span 2;
+      }
+
+      &.lg {
+        grid-column-start: span 2;
+      }
+
+      &.xl {
+        grid-column-start: span 2;
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .dashboardGrid {
+    //--dashboard-grid-columns: 4;
+
+    .dashboardCard {
+      &.md {
+        grid-column-start: span 2;
+      }
+      &.lg {
+        grid-column-start: span 2;
+      }
+      &.xl {
+        grid-column-start: span 2;
+      }
+    }
+  }
+}
