@@ -38,6 +38,7 @@ export async function processBBVACredit(userId: string, file: File) {
         bank: 'bbva',
         card: 'credit',
         type: data[2] ? 'outcome' : 'income',
+        origin: 'automatic',
         date: dayjs(data[0], "DD/MM/YYYY"),
         description: data[1],
         amount: parseFloat(data[2].replace(/,/g, '')),

@@ -29,6 +29,7 @@ export async function processBBVADebit(userId: string, file: File) {
       userId,
       bank: 'bbva',
       card: 'debit',
+      origin: "automatic",
       type: data[2] ? 'outcome' : 'income',
       description: data[1],
       date: dayjs(data[0], "DD/MM/YYYY"),

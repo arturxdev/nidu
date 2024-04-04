@@ -7,6 +7,8 @@ const transactionSchema = new Schema({
   amount: Number,
   date: Date,
   status: String,
+  type: String,
+  origin: String,
   description: String,
   descriptionUser: String,
   card: String,
