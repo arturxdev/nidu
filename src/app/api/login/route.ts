@@ -1,9 +1,11 @@
 import { authSchema } from "@/entities/auth";
+import { logger } from "@/lib/logger";
 import connectMongo from "@/lib/mongoose";
 import { loginAndReturnToken } from "@/services/auth";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
+    logger.info("POST /login")
     const data = await request.json()
     const auth = authSchema.parse(data)
     await connectMongo()
