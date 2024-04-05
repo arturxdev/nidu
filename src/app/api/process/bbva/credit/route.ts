@@ -1,10 +1,12 @@
 import { lucia } from "@/lib/auth";
 import { logger } from "@/lib/logger";
+import connectMongo from "@/lib/mongoose";
 import { csvService } from "@/services/files";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
+    await connectMongo();
     const authorizationHeader = request.headers.get("Authorization");
     const sessionId = lucia.readBearerToken(authorizationHeader ?? "");
     if (!sessionId) {
