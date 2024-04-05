@@ -1,5 +1,6 @@
 "use client";
 import { Transaction } from "@/entities/transaccions";
+import { logger } from "@/lib/logger";
 import dayjs from "dayjs";
 
 type Props = {
@@ -8,7 +9,6 @@ type Props = {
 export default function TransactionTable(props: Props) {
   const updateCategory = async (transaction: Transaction) => {
     try {
-
       const res = await fetch(`/api/transaction`, {
         method: 'PUT',
         body: JSON.stringify(transaction),
@@ -18,9 +18,8 @@ export default function TransactionTable(props: Props) {
       })
       if (res.status !== 200) throw new Error('Fallo al actualizar')
       const data = await res.json()
-      console.log(data)
     } catch (error) {
-      console.error(error)
+      logger.error(error)
     }
   }
   return (

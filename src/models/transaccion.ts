@@ -1,7 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 import toJSON from './plugins/toJSON';
 const transactionSchema = new Schema({
-  bankId: { type: String, required: true, unique: true },
+  bankId: { type: String, required: true },
   bank: { type: String, required: true },
   userId: { type: String, required: true },
   amount: Number,
@@ -12,7 +12,8 @@ const transactionSchema = new Schema({
   description: String,
   descriptionUser: String,
   card: String,
-  category: { type: String, default: 'uncategorized' }
+  category: { type: String, default: 'uncategorized' },
+  spender: { type: String, default: '' }
 },
   {
     timestamps: true,

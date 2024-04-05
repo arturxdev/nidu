@@ -10,6 +10,7 @@ export const transactionSchema = z.object({
   status: z.string(),
   description: z.string(),
   descriptionUser: z.string().default(''),
+  spender: z.string().default(''),
   card: z.string(),
   category: z.string().default('uncategorized')
 })

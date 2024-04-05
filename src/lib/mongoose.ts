@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { TransactionModel } from "@/models/transaccion";
 import { UserModel } from "@/models/user";
 import { SessionModel } from "@/models/session";
+import { logger } from "./logger";
 
 const connectMongo = async () => {
   if (!process.env.MONGODB_URI) {
@@ -11,7 +12,7 @@ const connectMongo = async () => {
   }
   return mongoose
     .connect(process.env.MONGODB_URI)
-    .catch((e) => console.error("Mongoose Client Error: " + e.message));
+    .catch((e) => logger.error({ e }, "mongoo error conection"));
 };
 
 export default connectMongo;
