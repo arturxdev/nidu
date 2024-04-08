@@ -13,10 +13,10 @@ export const transactionService = {
     await connectMongo()
     return TransactionModel.updateOne({ _id: transactionId }, { descriptionUser: data.descriptionUser, category: data.category })
   },
-  get: async (limit: number = 10, skip: number = 0, sort: string = 'desc') => {
+  get: async (limit: number = 10, skip: number = 0, sort: string = 'desc', userId: string) => {
     await connectMongo()
-    const transactionsTotal = await TransactionModel.find({})
-    const transactions = await TransactionModel.find({}).skip(skip).limit(limit).sort({ date: sort as SortOrder })
+    const transactionsTotal = await TransactionModel.find({ where: { userId } })
+    const transactions = await TransactionModel.find({ where: { userId } }).skip(skip).limit(limit).sort({ date: sort as SortOrder })
     const transformedResults = transactions.map((result: any) => {
       const { _doc: { _id, __v, ...restDataUser } } = result;
       return { id: _id.toString(), ...restDataUser };
