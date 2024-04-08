@@ -20,10 +20,12 @@ export async function POST(request: NextRequest) {
       throw new Error("File not found")
     }
     if (!user?.id) throw new Error("User not found")
-    await csvService.bbva.debit(user.id, file)
+    await csvService.amex.credit(user.id, file)
     return NextResponse.json(null, { status: 200 })
   } catch (error: any) {
     logger.error(error)
     return NextResponse.json({ error: error.message }, { status: 400 })
   }
 }
+
+

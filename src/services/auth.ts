@@ -12,7 +12,7 @@ interface ActionResult {
   error: string;
 }
 
-export async function loginAndReturnToken(username: string, password: string): Promise<ActionResult> {
+export async function loginAndReturnToken(username: string, password: string) {
   if (
     typeof username !== "string" ||
     username.length < 3 ||
@@ -37,7 +37,6 @@ export async function loginAndReturnToken(username: string, password: string): P
   const existingUser = await UserModel.findOne({
     username: username.toLowerCase(),
   });
-  console.log(existingUser);
   if (!existingUser) {
     return {
       error: "Incorrect username or password",

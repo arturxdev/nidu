@@ -1,22 +1,22 @@
 import TransactionTable from "@/components/TransactionTable";
-import { getTransactions } from "@/services/transaction";
 import { lucia, validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { transactionService } from "@/services/transaction";
 
 export default async function Home() {
   const { user } = await validateRequest();
   if (!user) {
     return redirect("/login");
   }
-  const transactions = await getTransactions()
+  const transactions = await transactionService.get()
   return (
     <main className="text-center p-10">
       <form action={logout}>
         <button className="btn btn-accent">Logout</button>
       </form>
       <p className="text-4xl font-bold">Tus cargos</p>
-      <TransactionTable transactions={transactions} />
+      <TransactionTable transactions={transactions.results} />
     </main>
   );
 }

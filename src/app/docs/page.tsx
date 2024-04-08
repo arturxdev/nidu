@@ -37,6 +37,9 @@ const document = createDocument({
     '/process/bbva/debit': {
       post: proccessFile
     },
+    '/process/amex/credit': {
+      post: proccessFile
+    },
   },
 });
 export default function App() { return <SwaggerUI spec={document} /> }
