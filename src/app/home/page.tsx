@@ -6,7 +6,9 @@ import Tooltip from "@/components/nidu/Tooltip";
 import { Progress } from "@/components/ui/progress";
 import TransactionTable from "@/components/TransactionTable/TransactionTable";
 import { DateRangePicker } from "@/components/nidu/DateRangePicker";
-export default function Home() {
+import { getTransactions } from "@/services/transaction";
+import { UpdateTransactionsFile } from "@/components/UpdateTransactionsFile";
+export default async function Home() {
   return (
     <div className="w-full min-h-screen">
       <Sidebar />
@@ -118,6 +120,7 @@ export default function Home() {
                 <div className={styles.cardTitle}>
                   <div className="flex items-center gap-2	">
                     <p>Transacciones</p>
+                    <UpdateTransactionsFile />
                   </div>
                 </div>
               </div>

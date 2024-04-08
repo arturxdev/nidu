@@ -14,7 +14,8 @@ export default function TransactionTable(props: Props) {
         body: JSON.stringify(transaction),
         headers: {
           contentType: 'application/json'
-        }
+        },
+        next: { tags: ['transactions'] } 
       })
       if (res.status !== 200) throw new Error('Fallo al actualizar')
       const data = await res.json()

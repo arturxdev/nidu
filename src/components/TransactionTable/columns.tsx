@@ -6,33 +6,40 @@ import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 import dayjs from "dayjs";
+import { UpdateTransactionSheet } from "../UpdateTransactionSheet";
+import { Trash2 } from "lucide-react";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
+export type Transaction = {
   id: string;
-  description: string;
-  account: string;
+  bankId: string;
+  bank: string;
+  userId: string;
   amount: number;
+  date: string;
   status: "pending" | "processing" | "success" | "failed";
-  createdAt: string;
-  type: "expense" | "income";
+  type: string;
+  origin: string;
+  description: string;
+  category: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "name",
     header: "Nombre",
     cell: ({ row }) => {
       const description = row.original.description;
-      const createdAt = row.original.createdAt;
+      const createdAt = row.original.date;
       return (
         <div className="font-medium">
           <p className="font-medium">{description}</p>
@@ -66,32 +73,61 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Status",
   },
   {
-    accessorKey: "account",
-    header: "Cuenta",
+    accessorKey: "category",
+    header: "Categoría",
+    cell: ({ row }) => {
+      const noCategory = row.original.category === "uncategorized";
+
+      return (
+        <div className="font-medium">{`${
+          noCategory ? "Sin categoría" : row.original.category
+        }`}</div>
+      );
+    },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const transaction = row.original;
+
+      const deleteTransaction = (id: string) => {};
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Editar
-            </DropdownMenuItem>
-            <DropdownMenuItem>Eliminar</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div>
+          <UpdateTransactionSheet transaction={transaction} />
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Trash2 className="h-5 w-5" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Eliminar transaccion</DialogTitle>
+                <DialogDescription>
+                  Estas seguro de eliminar la transaccion?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="sm:justify-start">
+                <DialogClose asChild>
+                  <Button type="button" variant="destructive">
+                    Close
+                  </Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      deleteTransaction(transaction.id);
+                    }}
+                  >
+                    Confirmar
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
       );
     },
   },
