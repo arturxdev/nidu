@@ -1,11 +1,26 @@
 import { transactionSchema } from "@/entities/transaccions";
+import { lucia } from "@/lib/auth";
 import connectMongo from "@/lib/mongoose";
 import { transactionService } from "@/services/transaction";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
-  await connectMongo()
-  const transactions = await transactionService.get()
+
+export async function GET(request: NextRequest) {
+  const limit = request.nextUrl.searchParams.get('limit') as string;
+  const skip = request.nextUrl.searchParams.get('page') as string;
+  const order = request.nextUrl.searchParams.get('order') as string;
+  await connectMongo();
+  const authorizationHeader = request.headers.get("Authorization");
+  const sessionId = lucia.readBearerToken(authorizationHeader ?? "");
+  if (!sessionId) {
+    return new Response(null, {
+      status: 401
+    });
+  }
+
+  const { user } = await lucia.validateSession(sessionId);
+  if (!user?.id) throw new Error("User not found")
+  const transactions = await transactionService.get(Number(limit), Number(skip), order ?? 'desc', user.id)
   return NextResponse.json(transactions)
 }
 export async function PUT(request: NextRequest) {
