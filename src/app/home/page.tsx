@@ -6,9 +6,12 @@ import Tooltip from "@/components/nidu/Tooltip";
 import { Progress } from "@/components/ui/progress";
 import TransactionTable from "@/components/TransactionTable/TransactionTable";
 import { DateRangePicker } from "@/components/nidu/DateRangePicker";
-import { getTransactions } from "@/services/transaction";
-import { UpdateTransactionsFile } from "@/components/UpdateTransactionsFile";
+import { UploadTransactionsFile } from "@/components/UploadTransactionsFile";
+
+import { lucia, validateRequest } from "@/lib/auth";
+
 export default async function Home() {
+  const { user, session } = await validateRequest();
   return (
     <div className="w-full min-h-screen">
       <Sidebar />
@@ -120,7 +123,7 @@ export default async function Home() {
                 <div className={styles.cardTitle}>
                   <div className="flex items-center gap-2	">
                     <p>Transacciones</p>
-                    <UpdateTransactionsFile />
+                    <UploadTransactionsFile token={session?.id || ""} />
                   </div>
                 </div>
               </div>
