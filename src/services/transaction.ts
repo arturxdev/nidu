@@ -18,15 +18,13 @@ export const transactionService = {
   },
   get: async (
     limit: number = 10,
-    order: string = "desc",
     page: number = 0,
+    order: string = "desc",
     userId: string
   ) => {
     await connectMongo();
-    const transactionsTotal = await TransactionModel.find({
-      where: { userId },
-    });
-    const transactions = await TransactionModel.find({ where: { userId } })
+    const transactionsTotal = await TransactionModel.find({ userId });
+    const transactions = await TransactionModel.find({ userId })
       .skip(page)
       .limit(limit)
       .sort({ date: order as SortOrder });
