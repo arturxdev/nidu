@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/context/theme-provider";
 import { MantineProvider } from "@mantine/core";
 import { Toaster } from "@/components/ui/toaster";
+import Sidebar from "@/components/sidebar/Sidebar";
+import { validateRequest } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,7 +39,8 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Sidebar />
+          <div>{children}</div>
           <Toaster />
         </ThemeProvider>
       </body>

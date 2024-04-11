@@ -57,9 +57,10 @@ export async function loginAndReturnToken(username: string, password: string) {
   return {
     name: sessionCookie.name,
     sessionId: sessionCookie.value,
-    attributes: sessionCookie.attributes
-  }
+    attributes: sessionCookie.attributes,
+  };
 }
+
 export async function login(formData: FormData): Promise<ActionResult> {
   const username = formData.get("username");
   if (
@@ -122,7 +123,6 @@ export async function login(formData: FormData): Promise<ActionResult> {
 }
 
 export async function signup(formData: FormData): Promise<ActionResult> {
-  "use server";
   const username = formData.get("username");
   // username must be between 4 ~ 31 characters, and only consists of lowercase letters, 0-9, -, and _
   // keep in mind some database (e.g. mysql) are case insensitive
