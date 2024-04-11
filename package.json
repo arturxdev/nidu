@@ -31,8 +31,10 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
+    "csvtojson": "^2.0.10",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
+    "formidable": "^3.5.1",
     "lucia": "^3.1.1",
     "lucide": "^0.363.0",
     "lucide-react": "^0.363.0",
@@ -40,6 +42,7 @@
     "next": "14.1.4",
     "next-themes": "^0.3.0",
     "oslo": "^1.1.3",
+    "papaparse": "^5.4.1",
     "pino": "^8.19.0",
     "pino-pretty": "^11.0.0",
     "react": "^18",
@@ -57,7 +60,9 @@
     "zod-openapi": "^2.14.0"
   },
   "devDependencies": {
+    "@types/formidable": "^3.4.5",
     "@types/node": "^20",
+    "@types/papaparse": "^5.3.14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/swagger-ui-react": "^4.18.3",

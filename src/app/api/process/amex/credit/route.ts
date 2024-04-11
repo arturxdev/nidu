@@ -14,8 +14,8 @@ export async function POST(request: NextRequest) {
     }
 
     const { user } = await lucia.validateSession(sessionId);
-    const data = await request.formData();
-    const file: File | null = data.get('file') as unknown as File;
+    const formData = await request.formData();
+    const file = formData.get('file') as File;
     if (!file) {
       throw new Error("File not found")
     }

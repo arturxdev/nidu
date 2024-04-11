@@ -2,6 +2,24 @@
 import { Transaction } from "@/entities/transaccions";
 import { logger } from "@/lib/logger";
 import dayjs from "dayjs";
+import { Button } from "@/components/ui/button"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
 
 type Props = {
   transactions: Transaction[]
@@ -15,7 +33,7 @@ export default function TransactionTable(props: Props) {
         headers: {
           contentType: 'application/json'
         },
-        next: { tags: ['transactions'] } 
+        next: { tags: ['transactions'] }
       })
       if (res.status !== 200) throw new Error('Fallo al actualizar')
       const data = await res.json()
@@ -24,49 +42,54 @@ export default function TransactionTable(props: Props) {
     }
   }
   return (
-    <table className="table mt-10 w-full">
-      <thead>
-        <tr>
-          <th>Fecha</th>
-          <th>Monto</th>
-          <th>Tarjeta</th>
-          <th>Referencia</th>
-          <th>Estatus</th>
-          <th>Categoria</th>
-          <th>Descripcion</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {props.transactions.map((transaction) => (
-          <tr key={transaction.id}>
-            <th>{dayjs(transaction.date).format("DD/MM/YYYY")}</th>
-            <td>{transaction.amount}</td>
-            <td>{transaction.card}</td>
-            <td>{transaction.description}</td>
-            <td>{transaction.status}</td>
-            <td>
-              <select className="select select-bordered w-full max-w-xs" defaultValue={transaction.category} onChange={(e) => { transaction.category = e.target.value }}>
-                <option disabled >Selecciona categoria</option>
-                <option>Ahorro</option>
-                <option>Comida</option>
-                <option>subscripcion</option>
-                <option>libre</option>
-                <option>Transporte</option>
-                <option>Efectivo</option>
-              </select>
-            </td>
-            <td>
-              <input type="text" placeholder="Type here" defaultValue={transaction.descriptionUser} onChange={(e) => { transaction.descriptionUser = e.target.value }} className="input input-bordered w-full max-w-xs" />
-            </td>
-            <td>
-              <button className="btn btn-neutral btn-xs" onClick={() => { updateCategory(transaction) }}>
-                Guardar
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Fecha</TableHead>
+            <TableHead>Monto</TableHead>
+            <TableHead>Tarjeta</TableHead>
+            <TableHead>Estado</TableHead>
+            <TableHead>Referencia</TableHead>
+            <TableHead>Categoria</TableHead>
+            <TableHead>Descripcion</TableHead>
+            <TableHead>Acciones</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {props.transactions.map((transaction) => (
+            <TableRow className="text-left" key={transaction.id}>
+              <TableCell>{dayjs(transaction.date).format("DD/MM/YYYY")}</TableCell>
+              <TableCell>{transaction.amount}</TableCell>
+              <TableCell>{transaction.card}</TableCell>
+              <TableCell>{transaction.status}</TableCell>
+              <TableCell>{transaction.description}</TableCell>
+              <TableCell>
+                <Select defaultValue={transaction.category} onValueChange={(e) => { transaction.category = e }}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select a fruit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="savings">Ahorro</SelectItem>
+                      <SelectItem value="food">Comida</SelectItem>
+                      <SelectItem value="subscription">Subscripcion</SelectItem>
+                      <SelectItem value="free">Libre</SelectItem>
+                      <SelectItem value="Transport">Transporte</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </TableCell>
+              <TableCell>
+                <Input placeholder="Agrega una descripcion" defaultValue={transaction.descriptionUser} onChange={(e) => { transaction.descriptionUser = e.target.value }} />
+              </TableCell>
+              <TableCell>
+                <Button onClick={() => { updateCategory(transaction) }}>Guardar</Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
   );
 }
