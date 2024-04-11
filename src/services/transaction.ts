@@ -13,7 +13,7 @@ export const transactionService = {
     await connectMongo();
     return TransactionModel.updateOne(
       { _id: transactionId },
-      { descriptionUser: data.descriptionUser, category: data.category }
+      { descriptionUser: data.descriptionUser, category: data.category, omit: data.omit }
     );
   },
   get: async (

@@ -20,6 +20,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
+
 
 type Props = {
   transactions: Transaction[]
@@ -53,6 +55,7 @@ export default function TransactionTable(props: Props) {
             <TableHead>Referencia</TableHead>
             <TableHead>Categoria</TableHead>
             <TableHead>Descripcion</TableHead>
+            <TableHead>Omitir</TableHead>
             <TableHead>Acciones</TableHead>
           </TableRow>
         </TableHeader>
@@ -79,6 +82,9 @@ export default function TransactionTable(props: Props) {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
+              </TableCell>
+              <TableCell>
+                <Checkbox defaultChecked={transaction.omit} onCheckedChange={(e) => { transaction.omit = e as boolean }} />
               </TableCell>
               <TableCell>
                 <Input placeholder="Agrega una descripcion" defaultValue={transaction.descriptionUser} onChange={(e) => { transaction.descriptionUser = e.target.value }} />

@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
     const { user } = await lucia.validateSession(sessionId);
     if (!user?.id) throw new Error("User not found")
-    const transactions = await transactionService.get(filter, user.id)
+    const transactions = await transactionService.get(filter.limit, filter.page, filter.order, user.id)
     return NextResponse.json(transactions)
   } catch (error: any) {
     logger.error(error)
