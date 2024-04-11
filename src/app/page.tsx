@@ -9,7 +9,7 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
-  const transactions = await transactionService.get()
+  const transactions = await transactionService.get(10, 0, 'desc', user.id)
   return (
     <main className="text-center p-10">
       <form action={logout}>
