@@ -1,0 +1,47 @@
+.backButton {
+  width: 32px;
+  height: 32px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #006fee;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.stepsSection {
+  width: 40%;
+  border-right: 1px solid #94a3b8;
+  padding-right: 48px;
+}
+
+.formSection {
+  padding-left: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  font-weight: 500;
+  color: #475d92;
+  margin-bottom: 24px;
+}
+
+.bulletPoint {
+  border-radius: 50%;
+  background-color: #006fee;
+  min-width: 24px;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: white;
+}
+
+.imageContainer {
+  min-width: 56px;
+  min-height: 40px;
+}
