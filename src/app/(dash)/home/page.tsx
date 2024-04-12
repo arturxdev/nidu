@@ -5,7 +5,6 @@ import Tooltip from "@/components/nidu/Tooltip";
 import { Progress } from "@/components/ui/progress";
 import TransactionTable from "@/components/TransactionTable/TransactionTable";
 import { DateRangePicker } from "@/components/nidu/DateRangePicker";
-import { UploadTransactionsFile } from "@/components/UploadTransactionsFile";
 
 import { validateRequest } from "@/lib/auth";
 
@@ -88,21 +87,21 @@ export default async function Home() {
           </div>
         </div>
         <div
-          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowMd} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowXl} bg-white dark:bg-zinc-900`}
         >
           <div className={styles.cardHeader}>
             <div>
-              <div className={styles.cardTitle}>Saldo en cuentas</div>
+              <div className={styles.cardTitle}>Resumen de gastos</div>
             </div>
           </div>
           <div className={styles.cardModule}></div>
         </div>
         <div
-          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowMd} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowXl} bg-white dark:bg-zinc-900`}
         >
           <div className={styles.cardHeader}>
             <div>
-              <div className={styles.cardTitle}>Presupuestos y metas</div>
+              <div className={styles.cardTitle}>Novedades</div>
             </div>
           </div>
           <div className={styles.cardModule}></div>
@@ -114,8 +113,7 @@ export default async function Home() {
             <div>
               <div className={styles.cardTitle}>
                 <div className="flex items-center gap-2	">
-                  <p>Transacciones</p>
-                  <UploadTransactionsFile token={session?.id || ""} />
+                  <p>Tus cuentas</p>
                 </div>
               </div>
             </div>
@@ -124,7 +122,7 @@ export default async function Home() {
             <TransactionTable />
           </div>
         </div>
-        <div
+        {/*<div
           className={`${styles.dashboardCard} ${styles.colXl} ${styles.rowMd} bg-white dark:bg-zinc-900`}
         >
           <div className={styles.cardHeader}>
@@ -157,7 +155,7 @@ export default async function Home() {
             </div>
           </div>
           <div className={styles.cardModule}></div>
-        </div>
+  </div>*/}
       </div>
     </div>
   );
