@@ -20,18 +20,20 @@ import {
 } from "../ui/dropdown-menu";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { logout } from "@/services/auth";
 
 const Sidebar = () => {
   const { setTheme } = useTheme();
-  const handleLogOut = () => {};
+  const handleLogOut = () => {
+    logout();
+  };
   const router = useRouter();
 
   const SIDE_ELEMENTS_TOP = [
     {
       tooltipLabel: "Dashboard",
       icon: <PieChart className="h-5 w-5" />,
-      link: "/",
+      link: "/home",
     },
     {
       tooltipLabel: "Transacciones",
@@ -41,11 +43,11 @@ const Sidebar = () => {
   ];
 
   const SIDE_ELEMENTS_BOTTOM = [
-    {
+    /*{
       tooltipLabel: "Settings",
       icon: <Settings className="h-5 w-5" />,
       link: "/settings",
-    },
+    },*/
     {
       tooltipLabel: "Salir",
       icon: <LogOut className="h-5 w-5" />,
@@ -60,7 +62,11 @@ const Sidebar = () => {
       <div className="z-[10] mb-[10px] flex h-full w-[100%] flex-col justify-between">
         <div className="flex h-full flex-col items-center justify-between">
           <div className="flex flex-col items-center">
-            <Bird className="h-10 w-10 mb-6 mt-2" />
+            <Bird
+              className="h-10 w-10 mb-6 mt-2 cursor-pointer"
+              onClick={() => router.push("/home")}
+            />
+
             {SIDE_ELEMENTS_TOP.map((sideElement) => {
               return (
                 <SideIcon

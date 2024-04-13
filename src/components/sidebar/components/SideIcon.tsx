@@ -26,7 +26,9 @@ const SideIcon = ({ icon, tooltipLabel, link, onClickBtn }: SideIconProps) => {
             variant="outline"
             size="icon"
             className="mb-2"
-            onClick={() => (link ? router.push(link) : onClickBtn)}
+            onClick={() =>
+              link ? router.push(link) : onClickBtn && onClickBtn()
+            }
           >
             <>{icon}</>
           </Button>
