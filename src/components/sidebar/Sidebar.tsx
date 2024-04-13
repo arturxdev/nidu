@@ -20,12 +20,11 @@ import {
 } from "../ui/dropdown-menu";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
-import { logout } from "@/services/auth";
 
 const Sidebar = () => {
   const { setTheme } = useTheme();
   const handleLogOut = () => {
-    logout();
+    //logout();
   };
   const router = useRouter();
 
