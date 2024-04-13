@@ -9,6 +9,8 @@ import { DateRangePicker } from "@/components/nidu/DateRangePicker";
 import { validateRequest } from "@/lib/auth";
 import { adjustHexOpacity, generateFormatNumber } from "@/utils/generalHelper";
 import { categoryDictionary } from "@/utils/dictionaries/categoryDictionary";
+import { chartService } from "@/services/charts";
+import { redirect } from "next/navigation";
 
 const chartCategories = [
   {
@@ -44,7 +46,11 @@ const chartCategories = [
 ];
 
 export default async function Home() {
-  const { user, session } = await validateRequest();
+  const { user } = await validateRequest();
+  if (!user) return redirect("/login")
+  const startDate = new Date('2024-04-03');
+  const endDate = new Date('2024-04-31');
+  const resume = await chartService.resume(user?.id, startDate, endDate)
   return (
     <div className="w-full min-h-screen">
       <div>
@@ -151,9 +157,8 @@ export default async function Home() {
                             categoryDictionary[category.key]?.color,
                             "0.1"
                           )}`,
-                          border: `1px solid ${
-                            categoryDictionary[category.key]?.color
-                          }`,
+                          border: `1px solid ${categoryDictionary[category.key]?.color
+                            }`,
                         }}
                       >
                         <div className="flex justify-between">
