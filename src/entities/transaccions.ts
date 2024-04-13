@@ -8,6 +8,7 @@ export const transactionSchema = z.object({
   amount: z.number().nullable(),
   date: z.coerce.date(),
   status: z.string(),
+  type: z.string(),
   description: z.string(),
   descriptionUser: z.string().default(''),
   spender: z.string().default(''),
