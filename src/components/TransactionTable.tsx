@@ -52,6 +52,7 @@ export default function TransactionTable(props: Props) {
             <TableHead>Fecha</TableHead>
             <TableHead>Monto</TableHead>
             <TableHead>Tarjeta</TableHead>
+            <TableHead>Tipo</TableHead>
             <TableHead>Estado</TableHead>
             <TableHead>Referencia</TableHead>
             <TableHead>Categoria</TableHead>
@@ -66,6 +67,7 @@ export default function TransactionTable(props: Props) {
               <TableCell>{dayjs(transaction.date).format("DD/MM/YYYY")}</TableCell>
               <TableCell>{transaction.amount}</TableCell>
               <TableCell>{transaction.card}</TableCell>
+              <TableCell>{transaction.type}</TableCell>
               <TableCell>{transaction.status}</TableCell>
               <TableCell>{transaction.description}</TableCell>
               <TableCell>
