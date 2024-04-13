@@ -11,11 +11,8 @@ export default async function Home() {
   }
   const transactions = await transactionService.get(50, 0, 'desc', user.id)
   return (
-    <main className="text-center p-10">
-      <form action={logout}>
-        <button className="btn btn-accent">Logout</button>
-      </form>
-      <p className="text-4xl font-bold">Tus cargos</p>
+    <main className="p-10">
+      <p className="text-2xl font-bold mb-4">Tus cargos</p>
       <TransactionTable transactions={transactions.results} />
     </main>
   );
