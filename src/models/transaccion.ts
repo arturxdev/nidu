@@ -12,7 +12,7 @@ const transactionSchema = new Schema({
   description: String,
   descriptionUser: String,
   card: String,
-  omit: { type: Boolean },
+  omit: { type: Boolean, default: false },
   category: { type: String, default: 'uncategorized' },
   spender: { type: String, default: '' }
 },

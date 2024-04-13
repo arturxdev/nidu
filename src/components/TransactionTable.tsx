@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
+import { categoryArray } from "@/utils/dictionaries/categoryDictionary";
 
 
 type Props = {
@@ -74,11 +75,9 @@ export default function TransactionTable(props: Props) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="savings">Ahorro</SelectItem>
-                      <SelectItem value="food">Comida</SelectItem>
-                      <SelectItem value="subscription">Subscripcion</SelectItem>
-                      <SelectItem value="free">Libre</SelectItem>
-                      <SelectItem value="Transport">Transporte</SelectItem>
+                      {categoryArray.map((category) => (
+                        <SelectItem key={category.id} value={category.label}>{category.emoji} {category.label}</SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>

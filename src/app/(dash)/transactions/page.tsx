@@ -9,7 +9,7 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
-  const transactions = await transactionService.get(50, 0, 'desc', user.id)
+  const transactions = await transactionService.get(100, 0, 'desc', user.id)
   return (
     <main className="p-10">
       <p className="text-2xl font-bold mb-4">Tus cargos</p>
