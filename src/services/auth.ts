@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { lucia } from "@/lib/auth";
+import { lucia, validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import connectMongo from "@/lib/mongoose";
 import { UserModel } from "@/models/user";
@@ -166,4 +166,24 @@ export async function signup(formData: FormData): Promise<ActionResult> {
     sessionCookie.attributes
   );
   return redirect("/");
+}
+
+export async function logout(): Promise<ActionResult> {
+  const { session } = await validateRequest();
+  if (!session) {
+    return {
+      error: "Unauthorized",
+    };
+  }
+  await lucia.invalidateSession(session.id);
+  const sessionCookie = lucia.createBlankSessionCookie();
+  cookies().set(
+    sessionCookie.name,
+    sessionCookie.value,
+    sessionCookie.attributes
+  );
+  return redirect("/login");
+}
+interface ActionResult {
+  error: string;
 }
