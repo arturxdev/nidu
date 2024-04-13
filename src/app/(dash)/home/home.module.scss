@@ -88,6 +88,30 @@
   }
 }
 
+.topExpenseCard {
+  background-color: #eaf3ff;
+  border-radius: 6px;
+  width: 100%;
+  padding: 8px;
+}
+
+.categorieCard {
+  padding: 8px;
+  border-radius: 8px;
+  height: fit-content;
+  min-width: 168px;
+  width: 100%;
+
+  .emojiContainer {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 @media (min-width: 768px) {
   .dashboardGrid {
     //--dashboard-grid-columns: 2;

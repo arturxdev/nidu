@@ -7,15 +7,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useRouter } from "next/navigation";
 
 type SideIconProps = {
   icon: any;
   tooltipLabel?: string;
   link?: string;
-  onClick?(): void;
+  onClickBtn?(): void;
 };
 
-const SideIcon = ({ icon, tooltipLabel, link, onClick }: SideIconProps) => {
+const SideIcon = ({ icon, tooltipLabel, link, onClickBtn }: SideIconProps) => {
+  const router = useRouter();
   return (
     <TooltipProvider>
       <Tooltip delayDuration={150}>
@@ -24,9 +26,9 @@ const SideIcon = ({ icon, tooltipLabel, link, onClick }: SideIconProps) => {
             variant="outline"
             size="icon"
             className="mb-2"
-            onClick={onClick}
+            onClick={() => (link ? router.push(link) : onClickBtn)}
           >
-            {link ? <Link href={link}>{icon}</Link> : <>{icon}</>}
+            <>{icon}</>
           </Button>
         </TooltipTrigger>
         <TooltipContent side="right">

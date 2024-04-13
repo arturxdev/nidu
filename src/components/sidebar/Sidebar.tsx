@@ -19,19 +19,22 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Sidebar = () => {
   const { setTheme } = useTheme();
   const handleLogOut = () => {};
+  const router = useRouter();
 
   const SIDE_ELEMENTS_TOP = [
     {
-      tooltipLabel: "Dashboard shortcut: d",
+      tooltipLabel: "Dashboard",
       icon: <PieChart className="h-5 w-5" />,
       link: "/",
     },
     {
-      tooltipLabel: "Transacciones shortcut: t",
+      tooltipLabel: "Transacciones",
       icon: <List className="h-5 w-5" />,
       link: "/transactions",
     },
@@ -64,6 +67,7 @@ const Sidebar = () => {
                   key={sideElement.tooltipLabel}
                   tooltipLabel={sideElement.tooltipLabel}
                   icon={sideElement.icon}
+                  link={sideElement.link}
                 />
               );
             })}
@@ -95,6 +99,7 @@ const Sidebar = () => {
                   key={sideElement.tooltipLabel}
                   tooltipLabel={sideElement.tooltipLabel}
                   icon={sideElement.icon}
+                  onClickBtn={sideElement.onClick}
                 />
               );
             })}
