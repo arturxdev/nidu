@@ -62,7 +62,6 @@ export async function loginAndReturnToken(username: string, password: string) {
 }
 
 export async function login(formData: FormData): Promise<ActionResult> {
-  console.log("ENTRE");
   const username = formData.get("username");
   if (
     typeof username !== "string" ||
@@ -121,7 +120,6 @@ export async function login(formData: FormData): Promise<ActionResult> {
     sessionCookie.attributes
   );
 
-  console.log("LLEGUE");
   return redirect("/home");
 }
 
