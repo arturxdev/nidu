@@ -22,12 +22,15 @@ import {
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { categoryArray } from "@/utils/dictionaries/categoryDictionary";
+import { useToast } from "@/components/ui/use-toast"
 
 
 type Props = {
   transactions: Transaction[]
 }
 export default function TransactionTable(props: Props) {
+  const { toast } = useToast()
+
   const updateCategory = async (transaction: Transaction) => {
     try {
       const res = await fetch(`/api/transaction`, {
@@ -39,7 +42,9 @@ export default function TransactionTable(props: Props) {
         next: { tags: ['transactions'] }
       })
       if (res.status !== 200) throw new Error('Fallo al actualizar')
-      const data = await res.json()
+      toast({
+        title: "Actualizado con Exito",
+      })
     } catch (error) {
       logger.error(error)
     }
@@ -56,8 +61,8 @@ export default function TransactionTable(props: Props) {
             <TableHead>Estado</TableHead>
             <TableHead>Referencia</TableHead>
             <TableHead>Categoria</TableHead>
-            <TableHead>Descripcion</TableHead>
             <TableHead>Omitir</TableHead>
+            <TableHead>Descripcion</TableHead>
             <TableHead>Acciones</TableHead>
           </TableRow>
         </TableHeader>
@@ -84,7 +89,7 @@ export default function TransactionTable(props: Props) {
                   </SelectContent>
                 </Select>
               </TableCell>
-              <TableCell>
+              <TableCell className="text-center">
                 <Checkbox defaultChecked={transaction.omit} onCheckedChange={(e) => { transaction.omit = e as boolean }} />
               </TableCell>
               <TableCell>

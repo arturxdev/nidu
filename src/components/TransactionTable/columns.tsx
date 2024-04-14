@@ -18,34 +18,33 @@ import {
 import dayjs from "dayjs";
 import { UpdateTransactionSheet } from "../UpdateTransactionSheet";
 import { Trash2 } from "lucide-react";
+import { Transaction } from "@/entities/transaccions";
 
-export type Transaction = {
-  id: string;
-  bankId: string;
-  bank: string;
-  userId: string;
-  amount: number;
-  date: string;
-  status: "pending" | "processing" | "success" | "failed";
-  type: string;
-  origin: string;
-  description: string;
-  category: string;
-};
+
 
 export const columns: ColumnDef<Transaction>[] = [
   {
-    accessorKey: "name",
-    header: "Nombre",
+    accessorKey: "fecha",
+    header: "Fecha",
     cell: ({ row }) => {
-      const description = row.original.description;
       const createdAt = row.original.date;
       return (
         <div className="font-medium">
-          <p className="font-medium">{description}</p>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs">
             {dayjs(createdAt).format("DD/MM/YYYY")}
           </p>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "description",
+    header: "Descripción",
+    cell: ({ row }) => {
+      const description = row.original.description;
+      return (
+        <div className="font-medium">
+          <p className="font-medium">{description}</p>
         </div>
       );
     },
@@ -62,15 +61,36 @@ export const columns: ColumnDef<Transaction>[] = [
       }).format(amount);
 
       return (
-        <div className="font-medium">{`${
-          !isIncome ? "-" : ""
-        }${formatted}`}</div>
+        <div className="font-medium">{`${!isIncome ? "-" : ""
+          }${formatted}`}</div>
       );
     },
   },
   {
+    accessorKey: "bank",
+    header: "Banco",
+  },
+  {
+    accessorKey: "card",
+    header: "Tarjeta",
+  },
+  {
     accessorKey: "status",
-    header: "Status",
+    header: "Estado",
+  },
+  {
+    accessorKey: "descriptionUser",
+    header: "Descripcion",
+  },
+  {
+    accessorKey: "omit",
+    header: "omitir",
+    cell: ({ row }) => {
+      const omit = row.original.omit;
+      return (
+        <div className="font-medium">{`${omit ? "Si" : "No"}`}</div>
+      );
+    },
   },
   {
     accessorKey: "category",
@@ -79,9 +99,8 @@ export const columns: ColumnDef<Transaction>[] = [
       const noCategory = row.original.category === "uncategorized";
 
       return (
-        <div className="font-medium">{`${
-          noCategory ? "Sin categoría" : row.original.category
-        }`}</div>
+        <div className="font-medium">{`${noCategory ? "Sin categoría" : row.original.category
+          }`}</div>
       );
     },
   },
@@ -90,43 +109,11 @@ export const columns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const transaction = row.original;
 
-      const deleteTransaction = (id: string) => {};
+      const deleteTransaction = (id: string) => { };
 
       return (
         <div>
           <UpdateTransactionSheet transaction={transaction} />
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline" size="icon">
-                <Trash2 className="h-5 w-5" />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>Eliminar transaccion</DialogTitle>
-                <DialogDescription>
-                  Estas seguro de eliminar la transaccion?
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter className="sm:justify-start">
-                <DialogClose asChild>
-                  <Button type="button" variant="destructive">
-                    Close
-                  </Button>
-                </DialogClose>
-                <DialogClose asChild>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      deleteTransaction(transaction.id);
-                    }}
-                  >
-                    Confirmar
-                  </Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
         </div>
       );
     },

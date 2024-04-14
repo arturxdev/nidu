@@ -4,9 +4,9 @@ import { DataTable } from "./data-table";
 import { validateRequest } from "@/lib/auth";
 
 export default async function TransactionTable() {
-  const { user, session } = await validateRequest();
+  const { user } = await validateRequest();
   if (!user) return null
-  const transactions = await transactionService.get(10, 0, 'desc', user.id)
+  const transactions = await transactionService.get(150, 0, 'desc', user.id)
   return (
     <div className="">
       <DataTable columns={columns} data={transactions.results} />

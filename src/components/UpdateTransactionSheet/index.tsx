@@ -24,7 +24,10 @@ import {
 import { Label } from "@/components/ui/label";
 
 import { Pencil } from "lucide-react";
-import { Transaction } from "../TransactionTable/columns";
+import { Transaction } from "@/entities/transaccions";
+import { categoryArray } from "@/utils/dictionaries/categoryDictionary";
+import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
 
 type UpdateTransactionSheetProps = {
   transaction: Transaction;
@@ -84,14 +87,22 @@ export function UpdateTransactionSheet({
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Categoría</SelectLabel>
-                <SelectItem value="ahorro">Ahorro</SelectItem>
-                <SelectItem value="comida">Comida</SelectItem>
-                <SelectItem value="subs">Subscripcion</SelectItem>
-                <SelectItem value="libre">Libre</SelectItem>
-                <SelectItem value="transporte">Transporte</SelectItem>
+                {categoryArray.map((category) => (
+                  <SelectItem key={category.id} value={category.label}>{category.emoji} {category.label}</SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
+        </div>
+        <div className="mt-4">
+          <Label htmlFor="category">Agrega una descripcion</Label>
+          <Input placeholder="Agrega una descripcion" defaultValue={transaction.descriptionUser} onChange={(e) => { transaction.descriptionUser = e.target.value }} />
+        </div>
+        <div className="mt-4">
+          <Label htmlFor="category">Quieres omitir la transaccion ?</Label>
+          <div className="mt-2">
+            <Checkbox defaultChecked={transaction.omit} onCheckedChange={(e) => { transaction.omit = e as boolean }} />
+          </div>
         </div>
 
         <Button className="mt-4" onClick={updateCategory}>
