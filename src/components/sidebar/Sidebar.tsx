@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import {
   Moon,
@@ -13,21 +12,16 @@ import {
 import SideIcon from "./components/SideIcon";
 import { Button } from "../ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import ThemeDropdown from "./components/ThemeDropdown";
+import { logout } from "@/services/auth";
 
 const Sidebar = () => {
-  const { setTheme } = useTheme();
-  const handleLogOut = () => {
-    //logout();
-  };
-  const router = useRouter();
-
   const SIDE_ELEMENTS_TOP = [
     {
       tooltipLabel: "Dashboard",
@@ -47,11 +41,6 @@ const Sidebar = () => {
       icon: <Settings className="h-5 w-5" />,
       link: "/settings",
     },*/
-    {
-      tooltipLabel: "Salir",
-      icon: <LogOut className="h-5 w-5" />,
-      onClick: handleLogOut,
-    },
   ];
 
   return (
@@ -63,7 +52,7 @@ const Sidebar = () => {
           <div className="flex flex-col items-center">
             <Bird
               className="h-10 w-10 mb-6 mt-2 cursor-pointer"
-              onClick={() => router.push("/home")}
+              //onClick={() => router.push("/home")}
             />
 
             {SIDE_ELEMENTS_TOP.map((sideElement) => {
@@ -78,36 +67,21 @@ const Sidebar = () => {
             })}
           </div>
           <div className="flex flex-col items-center">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="mb-2">
-                  <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                  <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                  <span className="sr-only">Toggle theme</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setTheme("light")}>
-                  Light
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("dark")}>
-                  Dark
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>
-                  System
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            {SIDE_ELEMENTS_BOTTOM.map((sideElement) => {
-              return (
-                <SideIcon
-                  key={sideElement.tooltipLabel}
-                  tooltipLabel={sideElement.tooltipLabel}
-                  icon={sideElement.icon}
-                  onClickBtn={sideElement.onClick}
-                />
-              );
-            })}
+            <ThemeDropdown />
+            <TooltipProvider>
+              <Tooltip delayDuration={150}>
+                <TooltipTrigger asChild>
+                  <form action={logout}>
+                    <Button variant="outline" size="icon" className="mb-2">
+                      <LogOut className="h-5 w-5" />
+                    </Button>
+                  </form>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  <p>Salir</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <span className="mt-2 text-sm">v1</span>
           </div>
         </div>

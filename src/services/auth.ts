@@ -62,6 +62,7 @@ export async function loginAndReturnToken(username: string, password: string) {
 }
 
 export async function login(formData: FormData): Promise<ActionResult> {
+  console.log("ENTRE");
   const username = formData.get("username");
   if (
     typeof username !== "string" ||
@@ -119,7 +120,9 @@ export async function login(formData: FormData): Promise<ActionResult> {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/");
+
+  console.log("LLEGUE");
+  return redirect("/home");
 }
 
 export async function signup(formData: FormData): Promise<ActionResult> {
@@ -165,11 +168,11 @@ export async function signup(formData: FormData): Promise<ActionResult> {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/");
+  return redirect("/home");
 }
 
-export async function logout(): Promise<ActionResult> {
-  /*const { session } = await validateRequest();
+export async function logout() {
+  const { session } = await validateRequest();
   if (!session) {
     return {
       error: "Unauthorized",
@@ -181,9 +184,6 @@ export async function logout(): Promise<ActionResult> {
     sessionCookie.name,
     sessionCookie.value,
     sessionCookie.attributes
-  );*/
+  );
   return redirect("/login");
-}
-interface ActionResult {
-  error: string;
 }
