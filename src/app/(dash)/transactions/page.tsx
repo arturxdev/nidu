@@ -11,7 +11,7 @@ export default async function Home() {
   }
   return (
     <main className="p-10">
-      <p className="text-2xl font-bold mb-4">Tus cargos</p>
+      <p className="text-2xl font-bold mb-4">Tus transacciones</p>
       <TransactionTable />
     </main>
   );
