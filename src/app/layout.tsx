@@ -3,12 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "@mantine/core/styles.css";
 import connectMongo from "@/lib/mongoose";
-import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/context/theme-provider";
-import { MantineProvider } from "@mantine/core";
 import { Toaster } from "@/components/ui/toaster";
-import Sidebar from "@/components/sidebar/Sidebar";
-import { validateRequest } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -33,6 +33,11 @@ const Sidebar = () => {
       icon: <List className="h-5 w-5" />,
       link: "/transactions",
     },
+    {
+      tooltipLabel: "Graficas",
+      icon: <List className="h-5 w-5" />,
+      link: "/charts",
+    },
   ];
 
   const SIDE_ELEMENTS_BOTTOM = [
@@ -52,7 +57,7 @@ const Sidebar = () => {
           <div className="flex flex-col items-center">
             <Bird
               className="h-10 w-10 mb-6 mt-2 cursor-pointer"
-              //onClick={() => router.push("/home")}
+            //onClick={() => router.push("/home")}
             />
 
             {SIDE_ELEMENTS_TOP.map((sideElement) => {

@@ -16,6 +16,10 @@ export const transactionService = {
       { descriptionUser: data.descriptionUser, category: data.category, omit: data.omit }
     );
   },
+  getBanks: async (userId: string) => {
+    await connectMongo();
+    return TransactionModel.find({ userId }).distinct("bank");
+  },
   get: async (
     limit: number = 10,
     page: number = 0,
