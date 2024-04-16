@@ -2,23 +2,11 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { MoreHorizontal } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
 import dayjs from "dayjs";
-import { UpdateTransactionSheet } from "../UpdateTransactionSheet";
-import { Trash2 } from "lucide-react";
+import { UpdateOmitTransaction, UpdateTransactionSheet } from "../UpdateTransactionSheet";
 import { Transaction } from "@/entities/transaccions";
+import { Switch } from "@/components/ui/switch"
+
 
 
 
@@ -86,9 +74,8 @@ export const columns: ColumnDef<Transaction>[] = [
     accessorKey: "omit",
     header: "omitir",
     cell: ({ row }) => {
-      const omit = row.original.omit;
       return (
-        <div className="font-medium">{`${omit ? "Si" : "No"}`}</div>
+        <UpdateOmitTransaction transaction={row.original} />
       );
     },
   },

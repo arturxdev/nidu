@@ -4,8 +4,10 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import connectMongo from '@/lib/mongoose';
 import { TransactionModel } from '@/models/transaccion';
 dayjs.extend(customParseFormat)
+import { logger } from '@/lib/logger';
 
 export async function processBBVADebit(userId: string, file: File) {
+  logger.info('processing file')
   await connectMongo()
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
@@ -36,14 +38,13 @@ export async function processBBVADebit(userId: string, file: File) {
       amount: Math.abs(parseFloat(amount)),
       status: data[4] == 'En tránsito' ? 'transit' : 'processed'
     };
-    // console.log(payload)
     const operationExists = await TransactionModel.findOne({ bankId })
     if (operationExists) {
-      console.log('operation already exists')
+      logger.info('operation already exists')
       continue;
     }
     const operationSaved = await TransactionModel.create({ ...payload })
-    console.log('operation saved')
+    logger.info('operation saved')
   }
   return
 }
