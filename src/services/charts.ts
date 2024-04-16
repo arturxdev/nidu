@@ -31,6 +31,7 @@ export const chartService = {
             $gte: startDate,
             $lte: endDate
           },
+          userId: userId,
           omit: {
             $in: [false, null]
           },
@@ -51,6 +52,7 @@ export const chartService = {
             $gte: startDate,
             $lte: endDate
           },
+          userId: userId,
           omit: {
             $in: [false, null]
           },
@@ -82,6 +84,7 @@ export const chartService = {
             $gte: startDate,
             $lte: endDate
           },
+          userId: userId,
           omit: {
             $in: [false, null]
           },
@@ -112,6 +115,7 @@ export const chartService = {
             $gte: startDate,
             $lte: endDate
           },
+          userId: userId,
           omit: {
             $in: [false, null]
           },
@@ -142,6 +146,7 @@ export const chartService = {
             $gte: startDate,
             $lte: endDate
           },
+          userId: userId,
           omit: {
             $in: [false, null]
           },
@@ -172,6 +177,7 @@ export const chartService = {
             $gte: startDate,
             $lte: endDate
           },
+          userId: userId,
           omit: {
             $in: [false, null]
           },
@@ -184,7 +190,7 @@ export const chartService = {
     ])
     for (let i = 0; i < test.length; i++) {
       const element = test[i];
-      console.log(element.date, element.amount, element.category, element.type)
+      console.log(element.date, element.amount, element.category, element.type, element.description, element.omit, element.userId, element.omit)
     }
     return {
       categories,
