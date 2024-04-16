@@ -7,6 +7,7 @@ import {
   Bird,
   LogOut,
   Settings,
+  Home,
 } from "lucide-react";
 
 import SideIcon from "./components/SideIcon";
@@ -25,7 +26,7 @@ const Sidebar = () => {
   const SIDE_ELEMENTS_TOP = [
     {
       tooltipLabel: "Dashboard",
-      icon: <PieChart className="h-5 w-5" />,
+      icon: <Home className="h-5 w-5" />,
       link: "/home",
     },
     {
@@ -35,7 +36,7 @@ const Sidebar = () => {
     },
     {
       tooltipLabel: "Graficas",
-      icon: <List className="h-5 w-5" />,
+      icon: <PieChart className="h-5 w-5" />,
       link: "/charts",
     },
   ];

@@ -50,13 +50,14 @@ export function UpdateTransactionSheet({
       });
       if (res.status !== 200) throw new Error("Fallo al actualizar");
       const data = await res.json();
-      console.log(data);
       toast({
         title: "Transacción actualizada",
       });
       setSheetOpen(false);
     } catch (error) {
-      console.error(error);
+      toast({
+        title: "Error al actualizar",
+      });
     }
   };
 

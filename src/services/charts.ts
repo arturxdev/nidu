@@ -73,5 +73,102 @@ export const chartService = {
       ingresos,
       categories
     }
+  },
+  dashboard: async (userId: string, startDate: Date, endDate: Date) => {
+    const outcome = await TransactionModel.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: startDate,
+            $lte: endDate
+          },
+          omit: {
+            $in: [false, null]
+          },
+          type: "outcome"
+        }
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+          value: { $sum: "$amount" }
+        }
+      },
+      {
+        $sort: { _id: -1 } // Ordenar en orden descendente por el campo 'totalAmount'
+      },
+      {
+        $project: {
+          _id: 0,
+          date: "$_id",
+          value: 1
+        }
+      },
+    ])
+    const income = await TransactionModel.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: startDate,
+            $lte: endDate
+          },
+          omit: {
+            $in: [false, null]
+          },
+          type: "income"
+        }
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+          value: { $sum: "$amount" }
+        }
+      },
+      {
+        $sort: { _id: -1 } // Ordenar en orden descendente por el campo 'totalAmount'
+      },
+      {
+        $project: {
+          _id: 0,
+          date: "$_id",
+          value: 1
+        }
+      },
+    ])
+    const categories = await TransactionModel.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: startDate,
+            $lte: endDate
+          },
+          omit: {
+            $in: [false, null]
+          },
+          type: "outcome"
+        }
+      },
+      {
+        $group: {
+          _id: "$category",
+          value: { $sum: "$amount" }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          name: "$_id",
+          value: 1
+        }
+      },
+      {
+        $sort: { value: -1 } // Ordenar en orden descendente por el campo 'totalAmount'
+      }
+    ])
+    return {
+      categories,
+      outcome,
+      income
+    }
   }
 }
