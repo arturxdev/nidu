@@ -179,7 +179,10 @@ export const chartService = {
         }
       },
     ])
-    console.log(test)
+    for (let i = 0; i < test.length; i++) {
+      const element = test[i];
+      console.log(element.date)
+    }
     return {
       categories,
       outcome,
