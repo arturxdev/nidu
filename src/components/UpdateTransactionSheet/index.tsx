@@ -127,12 +127,6 @@ export function UpdateTransactionSheet({
           <Label htmlFor="category">Agrega una descripcion</Label>
           <Input placeholder="Agrega una descripcion" defaultValue={transaction.descriptionUser} onChange={(e) => { transaction.descriptionUser = e.target.value }} />
         </div>
-        <div className="mt-4">
-          <Label htmlFor="category">Quieres omitir la transaccion ?</Label>
-          <div className="mt-2">
-            <Checkbox defaultChecked={transaction.omit} onCheckedChange={(e) => { transaction.omit = e as boolean }} />
-          </div>
-        </div>
 
         <Button className="mt-4" onClick={updateCategory}>
           Guardar
