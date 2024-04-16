@@ -21,7 +21,8 @@ export default async function Dashboards() {
   const { user } = await validateRequest()
   if (!user) return redirect("/login")
   const today = dayjs()
-  const data = await chartService.dashboard(user.id, today.startOf('month').toDate(), today.toDate())
+  const data = await chartService.dashboard(user.id, today.startOf('month').startOf('day').toDate(), today.toDate())
+  console.log(today.startOf('month').toDate(), today.toDate())
   const totalIncome = data.income.reduce((acc, curr) => acc + curr.value, 0)
   const totalOutcome = data.outcome.reduce((acc, curr) => acc + curr.value, 0)
   return (
