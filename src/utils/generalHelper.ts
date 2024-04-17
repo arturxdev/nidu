@@ -19,3 +19,5 @@ export const adjustHexOpacity = (hex: string, opacity: string) => {
 
   return rgbaColor;
 };
+
+export const generateHomeStats = () => {};

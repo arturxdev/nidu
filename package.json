@@ -34,6 +34,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@tanstack/react-table": "^8.15.3",
     "@tremor/react": "^3.16.0",
+    "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",

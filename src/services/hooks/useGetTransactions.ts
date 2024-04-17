@@ -1,16 +1,17 @@
 import useSWR, { useSWRConfig } from "swr";
 import axios from "axios";
 
-export const useGetCharts = (
-  token: string,
-  startDate: string,
-  endDate: string
+export const useGetTransactions = (
+  token?: string,
+  limit?: number,
+  page?: number,
+  order?: string
 ) => {
   const { mutate } = useSWRConfig();
   const getData = async () => {
     try {
       const response = await axios.get(
-        `/api/resume?dateStart=${startDate}&dateEnd=${endDate}`,
+        `/api/transaction?limit=${limit}&page=${page}&order=${order}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -25,12 +26,12 @@ export const useGetCharts = (
   };
 
   //Conditional fetching
-  const { data, error, isLoading } = useSWR<any>("charts/resume", getData);
+  const { data, error, isLoading } = useSWR<any>("api/transactions", getData);
 
   return {
-    resume: data,
+    transactions: data,
     isLoading,
     isError: error,
-    revalidateTransactions: () => mutate("charts/resume"),
+    revalidateTransactions: () => mutate("api/transactions"),
   };
 };
