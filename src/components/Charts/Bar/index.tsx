@@ -1,4 +1,5 @@
 "use client"
+import { generateFormatNumber } from '@/utils/generalHelper';
 import { BarList } from '@tremor/react';
 
 type Data = {
@@ -19,6 +20,7 @@ export default function BarChart(props: Props) {
     <BarList
       data={data}
       className="px-5"
+      valueFormatter={(value: any) => `${generateFormatNumber(value)}`}
     />
   );
 }
