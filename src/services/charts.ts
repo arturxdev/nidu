@@ -31,6 +31,7 @@ export const chartService = {
             $gte: startDate,
             $lte: endDate
           },
+          userId: userId,
           omit: {
             $in: [false, null]
           },
@@ -51,6 +52,7 @@ export const chartService = {
             $gte: startDate,
             $lte: endDate
           },
+          userId: userId,
           omit: {
             $in: [false, null]
           },
@@ -72,6 +74,128 @@ export const chartService = {
       gastos,
       ingresos,
       categories
+    }
+  },
+  dashboard: async (userId: string, startDate: Date, endDate: Date) => {
+    const outcome = await TransactionModel.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: startDate,
+            $lte: endDate
+          },
+          userId: userId,
+          omit: {
+            $in: [false, null]
+          },
+          type: "outcome"
+        }
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+          value: { $sum: "$amount" }
+        }
+      },
+      {
+        $sort: { _id: -1 }
+      },
+      {
+        $project: {
+          _id: 0,
+          date: "$_id",
+          value: 1
+        }
+      },
+    ])
+    const income = await TransactionModel.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: startDate,
+            $lte: endDate
+          },
+          userId: userId,
+          omit: {
+            $in: [false, null]
+          },
+          type: "income"
+        }
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+          value: { $sum: "$amount" }
+        }
+      },
+      {
+        $sort: { _id: -1 }
+      },
+      {
+        $project: {
+          _id: 0,
+          date: "$_id",
+          value: 1
+        }
+      },
+    ])
+    const categories = await TransactionModel.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: startDate,
+            $lte: endDate
+          },
+          userId: userId,
+          omit: {
+            $in: [false, null]
+          },
+          type: "outcome"
+        }
+      },
+      {
+        $group: {
+          _id: "$category",
+          value: { $sum: "$amount" }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          name: "$_id",
+          value: 1
+        }
+      },
+      {
+        $sort: { value: -1 } // Ordenar en orden descendente por el campo 'totalAmount'
+      }
+    ])
+    const test = await TransactionModel.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: startDate,
+            $lte: endDate
+          },
+          userId: userId,
+          omit: {
+            $in: [false, null]
+          },
+          type: "outcome"
+        }
+      },
+      {
+        $sort: { date: -1 } // Ordenar en orden descendente por el campo 'totalAmount'
+      }
+    ])
+    // for (let i = 0; i < test.length; i++) {
+    //   const element = test[i];
+    //   console.log(element._id, element.date, element.amount, element.category, element.type, element.description, element.omit, element.userId, element.omit)
+    // }
+    return {
+      categories,
+      outcome,
+      income
     }
   }
 }

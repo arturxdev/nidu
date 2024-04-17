@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 
 import {
   Sheet,
@@ -27,11 +27,38 @@ import { Pencil } from "lucide-react";
 import { Transaction } from "@/entities/transaccions";
 import { categoryArray } from "@/utils/dictionaries/categoryDictionary";
 import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Switch } from "@/components/ui/switch"
 
 type UpdateTransactionSheetProps = {
   transaction: Transaction;
-};
+}
+export function UpdateOmitTransaction({ transaction }: UpdateTransactionSheetProps) {
+  const [omit, setOmit] = useState(transaction.omit)
+  const updateOmit = async () => {
+    try {
+      setOmit(!omit)
+      const res = await fetch(`/api/transaction`, {
+        method: "PUT",
+        body: JSON.stringify({ ...transaction, omit: !omit }),
+        headers: {
+          contentType: "application/json",
+        },
+      });
+      if (res.status !== 200) throw new Error("Fallo al actualizar");
+      const data = await res.json();
+      toast({
+        title: "Transacción actualizada",
+      });
+    } catch (error) {
+      toast({
+        title: "Error al actualizar",
+      });
+    }
+  };
+  return (
+    <Switch checked={omit} onCheckedChange={updateOmit} />
+  )
+}
 
 export function UpdateTransactionSheet({
   transaction,
@@ -50,13 +77,14 @@ export function UpdateTransactionSheet({
       });
       if (res.status !== 200) throw new Error("Fallo al actualizar");
       const data = await res.json();
-      console.log(data);
       toast({
         title: "Transacción actualizada",
       });
       setSheetOpen(false);
     } catch (error) {
-      console.error(error);
+      toast({
+        title: "Error al actualizar",
+      });
     }
   };
 
@@ -97,12 +125,6 @@ export function UpdateTransactionSheet({
         <div className="mt-4">
           <Label htmlFor="category">Agrega una descripcion</Label>
           <Input placeholder="Agrega una descripcion" defaultValue={transaction.descriptionUser} onChange={(e) => { transaction.descriptionUser = e.target.value }} />
-        </div>
-        <div className="mt-4">
-          <Label htmlFor="category">Quieres omitir la transaccion ?</Label>
-          <div className="mt-2">
-            <Checkbox defaultChecked={transaction.omit} onCheckedChange={(e) => { transaction.omit = e as boolean }} />
-          </div>
         </div>
 
         <Button className="mt-4" onClick={updateCategory}>

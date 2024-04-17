@@ -21,14 +21,25 @@ import {
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  banks: string[]
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  banks
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const table = useReactTable({
@@ -46,14 +57,33 @@ export function DataTable<TData, TValue>({
   return (
     <>
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filtar por descripcion"
-          value={(table.getColumn("description")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("description")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <div>
+          <Input
+            placeholder="Filtar por descripcion"
+            value={(table.getColumn("description")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("description")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+        <div className="ml-2">
+          <Select value={(table.getColumn("bank")?.getFilterValue() as string) ?? ""} onValueChange={(event) =>
+            table.getColumn("bank")?.setFilterValue(event)
+          }>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filtra por banco" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Tus Bancos</SelectLabel>
+                {banks.map((bank, index) => (
+                  <SelectItem key={index} value={bank}>{bank}</SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>

@@ -1,37 +1,22 @@
 "use client";
-
 import { ColumnDef } from "@tanstack/react-table";
-
-import { MoreHorizontal } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
-import dayjs from "dayjs";
-import { UpdateTransactionSheet } from "../UpdateTransactionSheet";
-import { Trash2 } from "lucide-react";
+import { UpdateOmitTransaction, UpdateTransactionSheet } from "../UpdateTransactionSheet";
 import { Transaction } from "@/entities/transaccions";
-
-
+import utc from "dayjs/plugin/utc";
+import dayjs from "dayjs";
+dayjs.extend(utc)
 
 export const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "fecha",
     header: "Fecha",
     cell: ({ row }) => {
-      const createdAt = row.original.date;
+      const date = row.original.date;
+
       return (
         <div className="font-medium">
           <p className="text-xs">
-            {dayjs(createdAt).format("DD/MM/YYYY")}
+            {dayjs(date).utc().format("DD/MM/YYYY")}
           </p>
         </div>
       );
@@ -86,9 +71,8 @@ export const columns: ColumnDef<Transaction>[] = [
     accessorKey: "omit",
     header: "omitir",
     cell: ({ row }) => {
-      const omit = row.original.omit;
       return (
-        <div className="font-medium">{`${omit ? "Si" : "No"}`}</div>
+        <UpdateOmitTransaction transaction={row.original} />
       );
     },
   },

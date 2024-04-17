@@ -5,9 +5,6 @@ import connectMongo from '@/lib/mongoose';
 import { TransactionModel } from '@/models/transaccion';
 import 'dayjs/locale/es'
 import { logger } from '@/lib/logger';
-import Papa from 'papaparse';
-import Readable from 'stream';
-// dayjs.locale('es')
 dayjs.extend(customParseFormat)
 
 export async function processAMEXCredit(userId: string, file: File) {

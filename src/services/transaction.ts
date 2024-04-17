@@ -1,4 +1,3 @@
-import { Filter } from "@/entities/filter";
 import { Transaction } from "@/entities/transaccions";
 import connectMongo from "@/lib/mongoose";
 import { TransactionModel } from "@/models/transaccion";
@@ -16,6 +15,10 @@ export const transactionService = {
       { descriptionUser: data.descriptionUser, category: data.category, omit: data.omit }
     );
   },
+  getBanks: async (userId: string) => {
+    await connectMongo();
+    return TransactionModel.find({ userId }).distinct("bank");
+  },
   get: async (
     limit: number = 10,
     page: number = 0,
@@ -28,12 +31,15 @@ export const transactionService = {
       .skip(page)
       .limit(limit)
       .sort({ date: order as SortOrder });
+
     const transformedResults = transactions.map((result: any) => {
       const {
         _doc: { _id, __v, ...restDataUser },
       } = result;
-      return { id: _id.toString(), ...restDataUser };
+      // console.log(_id.toString(), restDataUser.date.toISOString(), restDataUser.amount, restDataUser.description, restDataUser.omit)
+      return { id: _id.toString(), date: restDataUser.date.toString(), dateParsed: restDataUser.date.toISOString(), ...restDataUser };
     });
+    // console.log(transformedResults)
     return {
       total: transactionsTotal.length,
       limit,

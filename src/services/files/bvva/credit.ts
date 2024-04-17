@@ -4,11 +4,11 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import connectMongo from '@/lib/mongoose';
 import { TransactionModel } from '@/models/transaccion';
 dayjs.extend(customParseFormat)
+import { logger } from '@/lib/logger';
 
 export async function processBBVACredit(userId: string, file: File) {
-  console.log('processing file')
+  logger.info('processing file')
   try {
-    console.log(userId)
     await connectMongo()
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -29,7 +29,7 @@ export async function processBBVACredit(userId: string, file: File) {
       const bankIdToSearch = `${data[0]}/${data[2].replace(/,/g, '')}/transit`
       const operationTransitExists = await TransactionModel.findOne({ bankId: bankIdToSearch })
       if (operationTransitExists && data[4] !== 'En tránsito') {
-        console.log('update bankId transit to processed')
+        logger.info('update bankId transit to processed')
         await TransactionModel.updateOne({ bankId: bankIdToSearch }, { status: 'processed', bankId: bankId })
       }
       const payload = {
@@ -47,17 +47,15 @@ export async function processBBVACredit(userId: string, file: File) {
       const operationExists = await TransactionModel.findOne({ bankId })
       if (operationExists) {
         await TransactionModel.updateOne({ bankId }, { status: payload.status, type: payload.type })
-        console.log('operation updated')
+        logger.info('operation updated')
         continue;
       }
-      // console.log(payload)
       const operationSaved = await TransactionModel.create({ ...payload })
-      // console.log(operationSaved)
-      console.log('operation saved')
+      logger.info('operation saved')
     }
     return
   } catch (error) {
-    console.log(error)
+    logger.error(error)
     throw new Error('error processing file')
   }
 }
