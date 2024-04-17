@@ -53,6 +53,7 @@
     "recharts": "2",
     "sass": "^1.72.0",
     "swagger-ui-react": "^5.13.0",
+    "swr": "^2.2.5",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "xlsx": "^0.18.5",
