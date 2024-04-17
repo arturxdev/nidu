@@ -54,7 +54,7 @@ export default async function Dashboards() {
           <TransactionByDate data={data.income} total={totalIncome} />
         </div>
         <div className="w-1/3 h-96 card">
-          <p className="text-center">Gastos por categoria</p>
+          <p className="text-center mb-5">Gastos por categoria</p>
           <BarChart data={data.categories} />
         </div>
       </div>
