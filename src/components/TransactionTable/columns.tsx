@@ -2,6 +2,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { UpdateOmitTransaction, UpdateTransactionSheet } from "../UpdateTransactionSheet";
 import { Transaction } from "@/entities/transaccions";
+import utc from "dayjs/plugin/utc";
+import dayjs from "dayjs";
+dayjs.extend(utc)
 
 export const columns: ColumnDef<Transaction>[] = [
   {
@@ -9,10 +12,11 @@ export const columns: ColumnDef<Transaction>[] = [
     header: "Fecha",
     cell: ({ row }) => {
       const date = row.original.date;
+
       return (
         <div className="font-medium">
           <p className="text-xs">
-            {date.toISOString()}
+            {dayjs(date).utc().format("DD/MM/YYYY")}
           </p>
         </div>
       );
