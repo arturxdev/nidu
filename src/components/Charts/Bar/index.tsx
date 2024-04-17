@@ -20,7 +20,7 @@ export default function BarChart(props: Props) {
     <BarList
       data={data}
       className="px-5"
-      valueFormatter={(value: any) => `${generateFormatNumber(value)}`}
+      valueFormatter={(value: any) => `$${generateFormatNumber(value)}`}
     />
   );
 }
