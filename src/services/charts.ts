@@ -188,10 +188,10 @@ export const chartService = {
         $sort: { date: -1 } // Ordenar en orden descendente por el campo 'totalAmount'
       }
     ])
-    for (let i = 0; i < test.length; i++) {
-      const element = test[i];
-      console.log(element.date, element.amount, element.category, element.type, element.description, element.omit, element.userId, element.omit)
-    }
+    // for (let i = 0; i < test.length; i++) {
+    //   const element = test[i];
+    //   console.log(element._id, element.date, element.amount, element.category, element.type, element.description, element.omit, element.userId, element.omit)
+    // }
     return {
       categories,
       outcome,

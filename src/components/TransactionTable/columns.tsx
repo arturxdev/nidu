@@ -1,25 +1,18 @@
 "use client";
-
 import { ColumnDef } from "@tanstack/react-table";
-
-import dayjs from "dayjs";
 import { UpdateOmitTransaction, UpdateTransactionSheet } from "../UpdateTransactionSheet";
 import { Transaction } from "@/entities/transaccions";
-import { Switch } from "@/components/ui/switch"
-
-
-
 
 export const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "fecha",
     header: "Fecha",
     cell: ({ row }) => {
-      const createdAt = row.original.date;
+      const date = row.original.date;
       return (
         <div className="font-medium">
           <p className="text-xs">
-            {dayjs(createdAt).format("DD/MM/YYYY")}
+            {date.toISOString()}
           </p>
         </div>
       );

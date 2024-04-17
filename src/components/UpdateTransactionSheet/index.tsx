@@ -27,7 +27,6 @@ import { Pencil } from "lucide-react";
 import { Transaction } from "@/entities/transaccions";
 import { categoryArray } from "@/utils/dictionaries/categoryDictionary";
 import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Switch } from "@/components/ui/switch"
 
 type UpdateTransactionSheetProps = {

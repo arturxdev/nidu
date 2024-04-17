@@ -1,8 +1,6 @@
 import BarChart from "@/components/Charts/Bar";
-import { Button } from "@/components/ui/button";
 import { chartService } from "@/services/charts";
 import dayjs from "dayjs";
-import Link from "next/link";
 import {
   Select,
   SelectContent,
@@ -16,13 +14,14 @@ import { TransactionByDate } from "@/components/Charts/TransactionByDate";
 import { validateRequest } from "@/lib/auth";
 import { generateFormatNumber } from "@/utils/generalHelper";
 import { redirect } from "next/navigation";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc)
 
 export default async function Dashboards() {
   const { user } = await validateRequest()
   if (!user) return redirect("/login")
-  const today = dayjs()
-  const data = await chartService.dashboard(user.id, today.startOf('month').startOf('day').toDate(), today.toDate())
-  console.log(today.startOf('month').toDate(), today.toDate())
+  const today = dayjs().utc().endOf("d")
+  const data = await chartService.dashboard(user.id, dayjs(today).startOf("M").toDate(), today.toDate())
   const totalIncome = data.income.reduce((acc, curr) => acc + curr.value, 0)
   const totalOutcome = data.outcome.reduce((acc, curr) => acc + curr.value, 0)
   return (

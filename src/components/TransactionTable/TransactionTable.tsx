@@ -7,6 +7,7 @@ export default async function TransactionTable() {
   const { user } = await validateRequest();
   if (!user) return null
   const transactions = await transactionService.get(150, 0, 'desc', user.id)
+  // console.log(transactions)
   const banks = await transactionService.getBanks(user.id)
   return (
     <div className="">
