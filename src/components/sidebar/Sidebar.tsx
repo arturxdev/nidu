@@ -21,6 +21,7 @@ import {
 
 import ThemeDropdown from "./components/ThemeDropdown";
 import { logout } from "@/services/auth";
+import Image from "next/image";
 
 const Sidebar = () => {
   const SIDE_ELEMENTS_TOP = [
@@ -56,9 +57,12 @@ const Sidebar = () => {
       <div className="z-[10] mb-[10px] flex h-full w-[100%] flex-col justify-between">
         <div className="flex h-full flex-col items-center justify-between">
           <div className="flex flex-col items-center">
-            <Bird
-              className="h-10 w-10 mb-6 mt-2 cursor-pointer"
-            //onClick={() => router.push("/home")}
+            <Image
+              src={"/img/nidulogo.png"}
+              width={40}
+              height={34}
+              alt="news"
+              className="mb-6"
             />
 
             {SIDE_ELEMENTS_TOP.map((sideElement) => {

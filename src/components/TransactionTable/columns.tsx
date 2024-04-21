@@ -1,10 +1,14 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { UpdateOmitTransaction, UpdateTransactionSheet } from "../UpdateTransactionSheet";
+import {
+  UpdateOmitTransaction,
+  UpdateTransactionSheet,
+} from "../UpdateTransactionSheet";
 import { Transaction } from "@/entities/transaccions";
 import utc from "dayjs/plugin/utc";
 import dayjs from "dayjs";
-dayjs.extend(utc)
+import { categoryMapper } from "@/utils/dictionaries/categoryDictionary";
+dayjs.extend(utc);
 
 export const columns: ColumnDef<Transaction>[] = [
   {
@@ -15,9 +19,7 @@ export const columns: ColumnDef<Transaction>[] = [
 
       return (
         <div className="font-medium">
-          <p className="text-xs">
-            {dayjs(date).utc().format("DD/MM/YYYY")}
-          </p>
+          <p className="text-xs">{dayjs(date).utc().format("DD/MM/YYYY")}</p>
         </div>
       );
     },
@@ -46,8 +48,9 @@ export const columns: ColumnDef<Transaction>[] = [
       }).format(amount);
 
       return (
-        <div className="font-medium">{`${!isIncome ? "-" : ""
-          }${formatted}`}</div>
+        <div className="font-medium">{`${
+          !isIncome ? "-" : ""
+        }${formatted}`}</div>
       );
     },
   },
@@ -71,9 +74,7 @@ export const columns: ColumnDef<Transaction>[] = [
     accessorKey: "omit",
     header: "omitir",
     cell: ({ row }) => {
-      return (
-        <UpdateOmitTransaction transaction={row.original} />
-      );
+      return <UpdateOmitTransaction transaction={row.original} />;
     },
   },
   {
@@ -82,10 +83,10 @@ export const columns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const noCategory = row.original.category === "uncategorized";
 
-      return (
-        <div className="font-medium">{`${noCategory ? "Sin categoría" : row.original.category
-          }`}</div>
-      );
+      const label =
+        categoryMapper[row.original.category as keyof typeof categoryMapper] ??
+        "Sin categoría";
+      return <div className="font-medium">{`${label}`}</div>;
     },
   },
   {
@@ -93,7 +94,7 @@ export const columns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const transaction = row.original;
 
-      const deleteTransaction = (id: string) => { };
+      const deleteTransaction = (id: string) => {};
 
       return (
         <div>
