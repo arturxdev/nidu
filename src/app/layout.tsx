@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Lexend } from "next/font/google";
 import "./globals.css";
 import "@mantine/core/styles.css";
 import connectMongo from "@/lib/mongoose";
 import { ThemeProvider } from "@/context/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ["latin"] });
+const lexend = Lexend({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Nidu",
@@ -29,15 +33,17 @@ export default async function RootLayout({
         />
       </head>
       <body className="flex h-full flex-col min-h-screen bg-background font-sans antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div>{children}</div>
-          <Toaster />
-        </ThemeProvider>
+        <main className={lexend.className}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div>{children}</div>
+            <Toaster />
+          </ThemeProvider>
+        </main>
       </body>
     </html>
   );

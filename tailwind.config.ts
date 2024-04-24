@@ -114,6 +114,9 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      backgroundColor: {
+        "bg-nidu-primary": "#2563EB",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

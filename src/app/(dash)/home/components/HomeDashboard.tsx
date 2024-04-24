@@ -112,7 +112,7 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
         >
           <div className={styles.cardHeader}>
             <div>
-              <div className={styles.cardTitle}>Resumen de gastos</div>
+              <div className={styles.cardTitle}>RESUMEN DE GASTOS</div>
             </div>
           </div>
           <div className={styles.cardModule}>
@@ -158,9 +158,7 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
                               {categoryDictionary[category._id]?.emoji}
                             </div>
                             <div className="text-sm">
-                              <p className="font-semibold">
-                                {categoryDictionary[category._id]?.label}{" "}
-                              </p>
+                              <p>{categoryDictionary[category._id]?.label} </p>
                             </div>
                           </div>
                           <div className="text-sm">
@@ -179,7 +177,7 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
         >
           <div className={styles.cardHeader}>
             <div>
-              <div className={styles.cardTitle}>Novedades</div>
+              <div className={styles.cardTitle}>NOVEDADES</div>
             </div>
           </div>
           <div className={styles.cardModule}>
@@ -197,7 +195,7 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
                 </p>
               </div>
               <div className="text-center">
-                <Button asChild>
+                <Button asChild variant={"nidu"}>
                   <Link
                     href="https://nidu.canny.io/feature-requests"
                     passHref={true}
@@ -217,13 +215,13 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
           <div className={styles.cardHeader}>
             <div className="flex items-center justify-between gap-2 w-full">
               <div className={styles.cardTitle}>
-                <p>Tus cuentas</p>
+                <p>TUS CUENTAS</p>
               </div>
 
               <div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button>
+                    <Button variant={"nidu"}>
                       <CirclePlus className="mr-2 h-4 w-4" />
                       Agregar
                     </Button>

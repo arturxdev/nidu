@@ -78,8 +78,8 @@ const AddReportForm = ({ token }: AddReportForm) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="amex">AMEX</SelectItem>
-                <SelectItem value="bbvadebit">Bancomer Débito</SelectItem>
-                <SelectItem value="bbvacredit">Bancomer Crédito</SelectItem>
+                <SelectItem value="bbvadebit">BBVA Débito</SelectItem>
+                <SelectItem value="bbvacredit">BBVA Crédito</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -118,7 +118,12 @@ const AddReportForm = ({ token }: AddReportForm) => {
       </div>
       <div>
         {!isLoading ? (
-          <Button type="submit" disabled={!file || !bank} onClick={uploadFile}>
+          <Button
+            type="submit"
+            variant={"nidu"}
+            disabled={!file || !bank}
+            onClick={uploadFile}
+          >
             Subir reporte
           </Button>
         ) : (

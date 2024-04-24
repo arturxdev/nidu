@@ -72,7 +72,7 @@ export const columns: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: "omit",
-    header: "omitir",
+    header: "Omitir",
     cell: ({ row }) => {
       return <UpdateOmitTransaction transaction={row.original} />;
     },

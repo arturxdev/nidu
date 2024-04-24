@@ -36,7 +36,7 @@ const Sidebar = () => {
       link: "/transactions",
     },
     {
-      tooltipLabel: "Graficas",
+      tooltipLabel: "Reportes",
       icon: <PieChart className="h-5 w-5" />,
       link: "/charts",
     },
