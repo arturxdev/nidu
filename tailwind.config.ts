@@ -1,6 +1,5 @@
 import type { Config } from "tailwindcss";
-import colors from 'tailwindcss/colors';
-
+import colors from "tailwindcss/colors";
 
 const config = {
   darkMode: ["class"],
@@ -9,8 +8,7 @@ const config = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
-    './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
-
+    "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
   ],
   prefix: "",
   theme: {
@@ -23,6 +21,7 @@ const config = {
     },
     extend: {
       colors: {
+        "nidu-primary": "#2563EB",
         tremor: {
           brand: {
             faint: colors.blue[50],
@@ -52,9 +51,9 @@ const config = {
             inverted: colors.white,
           },
         },
-        'dark-tremor': {
+        "dark-tremor": {
           brand: {
-            faint: '#0B1229',
+            faint: "#0B1229",
             muted: colors.blue[950],
             subtle: colors.blue[800],
             DEFAULT: colors.blue[500],
@@ -62,7 +61,7 @@ const config = {
             inverted: colors.blue[950],
           },
           background: {
-            muted: '#131A2B',
+            muted: "#131A2B",
             subtle: colors.gray[800],
             DEFAULT: colors.gray[900],
             emphasis: colors.gray[300],
@@ -115,6 +114,9 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      backgroundColor: {
+        "bg-nidu-primary": "#2563EB",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -140,17 +142,17 @@ const config = {
     {
       pattern:
         /^(bg-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-      variants: ['hover', 'ui-selected'],
+      variants: ["hover", "ui-selected"],
     },
     {
       pattern:
         /^(text-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-      variants: ['hover', 'ui-selected'],
+      variants: ["hover", "ui-selected"],
     },
     {
       pattern:
         /^(border-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-      variants: ['hover', 'ui-selected'],
+      variants: ["hover", "ui-selected"],
     },
     {
       pattern:
@@ -165,7 +167,7 @@ const config = {
         /^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
     },
   ],
-  plugins: [require("tailwindcss-animate"), require('@headlessui/tailwindcss')],
+  plugins: [require("tailwindcss-animate"), require("@headlessui/tailwindcss")],
 } satisfies Config;
 
 export default config;

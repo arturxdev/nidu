@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
 import styles from "../add-report.module.scss";
+import Link from "next/link";
 
 type AddReportForm = {
   token: string;
@@ -65,21 +66,38 @@ const AddReportForm = ({ token }: AddReportForm) => {
   return (
     <div className={styles.formSection}>
       <div className="grid gap-4 py-4">
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="bank">Banco origen</Label>
-          <Select onValueChange={(value) => setBank(value)} defaultValue={bank}>
-            <SelectTrigger className="w-full">
-              <SelectValue id="bank" placeholder="Banco" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="amex">AMEX</SelectItem>
-              <SelectItem value="bbvadebit">Bancomer Débito</SelectItem>
-              <SelectItem value="bbvacredit">Bancomer Crédito</SelectItem>
-            </SelectContent>
-          </Select>
+        <div>
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="bank">Banco origen</Label>
+            <Select
+              onValueChange={(value) => setBank(value)}
+              defaultValue={bank}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue id="bank" placeholder="Banco" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="amex">AMEX</SelectItem>
+                <SelectItem value="bbvadebit">BBVA Débito</SelectItem>
+                <SelectItem value="bbvacredit">BBVA Crédito</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="text-sm mt-1">
+            ¿No encuentras tu banco?{" "}
+            <Link
+              href="https://docs.google.com/forms/d/e/1FAIpQLSf2dKXH0Vqm4phowYHYXJ31sRxyTSCg47TW3ApwJTnCL2-deg/viewform"
+              passHref={true}
+              target="_blank"
+            >
+              <span className="text-blue-500 cursor-pointer font-semibold">
+                Llena este formulario para poder agregarlo.
+              </span>
+            </Link>
+          </div>
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-1.5">
+        {/* <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="name">Nombre de la cuenta</Label>
           <Input
             type="text"
@@ -88,7 +106,7 @@ const AddReportForm = ({ token }: AddReportForm) => {
             onChange={(e) => setBankName(e.target.value)}
             defaultValue={bankName}
           />
-        </div>
+  </div>*/}
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="document">Documento</Label>
           <Input
@@ -100,7 +118,12 @@ const AddReportForm = ({ token }: AddReportForm) => {
       </div>
       <div>
         {!isLoading ? (
-          <Button type="submit" disabled={!file || !bank} onClick={uploadFile}>
+          <Button
+            type="submit"
+            variant={"nidu"}
+            disabled={!file || !bank}
+            onClick={uploadFile}
+          >
             Subir reporte
           </Button>
         ) : (

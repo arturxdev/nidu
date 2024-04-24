@@ -25,18 +25,24 @@ import { Label } from "@/components/ui/label";
 
 import { Pencil } from "lucide-react";
 import { Transaction } from "@/entities/transaccions";
-import { categoryArray } from "@/utils/dictionaries/categoryDictionary";
-import { Input } from "@/components/ui/input"
-import { Switch } from "@/components/ui/switch"
+import {
+  categoryArray,
+  categoryArrayWithId,
+} from "@/utils/dictionaries/categoryDictionary";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { useGetTransactions } from "@/services/hooks/useGetTransactions";
 
 type UpdateTransactionSheetProps = {
   transaction: Transaction;
-}
-export function UpdateOmitTransaction({ transaction }: UpdateTransactionSheetProps) {
-  const [omit, setOmit] = useState(transaction.omit)
+};
+export function UpdateOmitTransaction({
+  transaction,
+}: UpdateTransactionSheetProps) {
+  const [omit, setOmit] = useState(transaction.omit);
   const updateOmit = async () => {
     try {
-      setOmit(!omit)
+      setOmit(!omit);
       const res = await fetch(`/api/transaction`, {
         method: "PUT",
         body: JSON.stringify({ ...transaction, omit: !omit }),
@@ -55,9 +61,7 @@ export function UpdateOmitTransaction({ transaction }: UpdateTransactionSheetPro
       });
     }
   };
-  return (
-    <Switch checked={omit} onCheckedChange={updateOmit} />
-  )
+  return <Switch checked={omit} onCheckedChange={updateOmit} />;
 }
 
 export function UpdateTransactionSheet({
@@ -65,6 +69,7 @@ export function UpdateTransactionSheet({
 }: UpdateTransactionSheetProps) {
   const { toast } = useToast();
   const [sheetOpen, setSheetOpen] = useState(false);
+  const { revalidateTransactions } = useGetTransactions();
 
   const updateCategory = async () => {
     try {
@@ -81,6 +86,7 @@ export function UpdateTransactionSheet({
         title: "Transacción actualizada",
       });
       setSheetOpen(false);
+      revalidateTransactions();
     } catch (error) {
       toast({
         title: "Error al actualizar",
@@ -115,8 +121,10 @@ export function UpdateTransactionSheet({
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Categoría</SelectLabel>
-                {categoryArray.map((category) => (
-                  <SelectItem key={category.id} value={category.label}>{category.emoji} {category.label}</SelectItem>
+                {categoryArrayWithId.map((category) => (
+                  <SelectItem key={category.id} value={category.key}>
+                    {category.emoji} {category.label}
+                  </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
@@ -124,7 +132,13 @@ export function UpdateTransactionSheet({
         </div>
         <div className="mt-4">
           <Label htmlFor="category">Agrega una descripcion</Label>
-          <Input placeholder="Agrega una descripcion" defaultValue={transaction.descriptionUser} onChange={(e) => { transaction.descriptionUser = e.target.value }} />
+          <Input
+            placeholder="Agrega una descripcion"
+            defaultValue={transaction.descriptionUser}
+            onChange={(e) => {
+              transaction.descriptionUser = e.target.value;
+            }}
+          />
         </div>
 
         <Button className="mt-4" onClick={updateCategory}>
