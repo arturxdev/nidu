@@ -4,7 +4,7 @@ import { TransactionModel } from "@/models/transaccion"
 export const chartService = {
   resume: async (userId: string, startDate: Date, endDate: Date) => {
     await connectMongo()
-    const ingresos = await TransactionModel.aggregate([
+    const balancePre = await TransactionModel.aggregate([
       {
         $match: {
           date: {
@@ -39,10 +39,10 @@ export const chartService = {
         }
       },
       {
-        $sort: { amount: -1 } // Ordenar en orden descendente por el campo 'amount'
+        $sort: { amount: -1 }
       },
       {
-        $limit: 3 // Limitar los resultados a los 5 primeros
+        $limit: 3
       }
     ])
     const categories = await TransactionModel.aggregate([
@@ -66,13 +66,17 @@ export const chartService = {
         }
       },
       {
-        $sort: { totalAmount: -1 } // Ordenar en orden descendente por el campo 'totalAmount'
+        $sort: { totalAmount: -1 }
       }
     ])
-
+    let balance: any = {
+      "income": 0,
+      "outcome": 0
+    }
+    balancePre.forEach((item: any) => { balance[item._id] = item.totalAmount })
     return {
       gastos,
-      ingresos,
+      balance,
       categories
     }
   },
@@ -167,31 +171,9 @@ export const chartService = {
         }
       },
       {
-        $sort: { value: -1 } // Ordenar en orden descendente por el campo 'totalAmount'
+        $sort: { value: -1 }
       }
     ])
-    const test = await TransactionModel.aggregate([
-      {
-        $match: {
-          date: {
-            $gte: startDate,
-            $lte: endDate
-          },
-          userId: userId,
-          omit: {
-            $in: [false, null]
-          },
-          type: "outcome"
-        }
-      },
-      {
-        $sort: { date: -1 } // Ordenar en orden descendente por el campo 'totalAmount'
-      }
-    ])
-    // for (let i = 0; i < test.length; i++) {
-    //   const element = test[i];
-    //   console.log(element._id, element.date, element.amount, element.category, element.type, element.description, element.omit, element.userId, element.omit)
-    // }
     return {
       categories,
       outcome,
