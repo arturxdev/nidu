@@ -306,7 +306,7 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
                       <Image
                         src={
                           bankDictionary[bank as keyof typeof bankDictionary]
-                            .image
+                            ?.image
                         }
                         width={40}
                         height={40}

@@ -11,4 +11,8 @@ export const bankDictionary = {
     label: "BBVA Débito",
     image: "/img/bank/bbva.png",
   },
+  bbva: {
+    label: "BBVA Débito",
+    image: "/img/bank/bbva.png",
+  },
 };
