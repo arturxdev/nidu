@@ -1,29 +1,5 @@
 import { v5 as uuidv5 } from "uuid";
 
-export const categoryArray = [
-  { id: 18, label: "Suscripciones", emoji: "🔐", color: "#f9d4a1", key: "" },
-  { id: 13, label: "Comida", emoji: "🍽", color: "#f9d4a1" },
-  { id: 2, label: "Compras", emoji: "🛍", color: "#fad02e" },
-  { id: 19, label: "Transporte y vehículo", emoji: "🚕", color: "#afeeee" },
-  { id: 3, label: "Efectivo", emoji: "💵", color: "#c7ecee" },
-  { id: 1, label: "Ahorro e inversión", emoji: "💰", color: "#a8dadc" },
-  { id: 4, label: "Educación", emoji: "🎓", color: "#afeeee" },
-  { id: 5, label: "Entretenimiento", emoji: "🎉", color: "#f4acb7" },
-  { id: 6, label: "Familia y amigos", emoji: "👨‍👩‍👦", color: "#f9d4a1" },
-  { id: 7, label: "Hipoteca y préstamos", emoji: "🏠", color: "#a8dadc" },
-  { id: 8, label: "Hogar", emoji: "🏠", color: "#c7ecee" },
-  { id: 9, label: "Impuestos", emoji: "📝", color: "#f4acb7" },
-  { id: 10, label: "Internet y teléfono", emoji: "🌐", color: "#afeeee" },
-  { id: 11, label: "Mascotas", emoji: "🐾", color: "#fad02e" },
-  { id: 12, label: "Regalos", emoji: "🎁", color: "#c7ecee" },
-  { id: 14, label: "Salario", emoji: "💵", color: "#a8dadc" },
-  { id: 15, label: "Salud", emoji: "🏥", color: "#afeeee" },
-  { id: 16, label: "Seguros", emoji: "🛡", color: "#f4acb7" },
-  { id: 17, label: "Supermercados", emoji: "🛒", color: "#c7ecee" },
-  { id: 20, label: "Traspasos propios", emoji: "🔄", color: "#fad02e" },
-  { id: 21, label: "Viajes", emoji: "🏖️", color: "#a8dadc" },
-];
-
 const MY_NAMESPACE = "1b671a64-40d5-491e-99b0-da01ff1f3341";
 
 export const categoryArrayWithId = [
@@ -176,35 +152,15 @@ export const categoryArrayWithId = [
   },
 ];
 
-export const categoryMapper = {
-  subscriptions: "Suscripciones",
-  food: "Comida",
-  shopping: "Compras",
-  transportationandvehicle: "Transporte y vehículo",
-  cash: "Efectivo",
-  savingsandinvestment: "Ahorro e inversión",
-  education: "Educación",
-  entertainment: "Entretenimiento",
-  familyandfriends: "Familia y amigos",
-  mortgageandloans: "Hipoteca y préstamos",
-  home: "Hogar",
-  taxes: "Impuestos",
-  internetandphone: "Internet y teléfono",
-  pets: "Mascotas",
-  gifts: "Regalos",
-  salary: "Salario",
-  health: "Salud",
-  insurance: "Seguros",
-  supermarkets: "Supermercados",
-  owntransfers: "Traspasos propios",
-  travel: "Viajes",
+export const getCategoryById = (id: string) => {
+  return categoryArrayWithId.find((category) => category.id === id);
 };
 
-// Example of how to create the categoryDictionary
 interface CategoryDictionary {
   [key: string]: any;
 }
 
+//
 export const categoryDictionary: CategoryDictionary = {
   uncategorized: {
     label: "Sin categoría",

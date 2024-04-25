@@ -7,7 +7,10 @@ import { Progress } from "@/components/ui/progress";
 import { DateRangePicker } from "@/components/nidu/DateRangePicker";
 
 import { adjustHexOpacity, generateFormatNumber } from "@/utils/generalHelper";
-import { categoryDictionary } from "@/utils/dictionaries/categoryDictionary";
+import {
+  categoryArrayWithId,
+  categoryDictionary,
+} from "@/utils/dictionaries/categoryDictionary";
 import { useGetCharts } from "@/services/hooks/useGetCharts";
 import {
   DropdownMenu,
@@ -18,6 +21,12 @@ import {
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useGetBanks } from "../../../../services/hooks/useGetBanks";
+import { bankDictionary } from "@/utils/dictionaries/bankDictionary";
+import HomeSkeletonDashboard from "./HomeSkeletonDashboard";
+import { useState } from "react";
+import { DateRange } from "react-day-picker";
+import { addDays, format, sub, subDays } from "date-fns";
 
 type HomeDashboardProps = {
   token: string;
@@ -28,27 +37,60 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
   const startDate = new Date("2024-04-03");
   const endDate = new Date("2024-04-31");
 
-  const { resume, isLoading, isError } = useGetCharts(
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: subDays(new Date(), 30),
+    to: new Date(),
+  });
+
+  const { resume, isLoading, isError, revalidateResume } = useGetCharts(
     token,
-    "2024-04-01",
-    "2024-04-15"
+    date?.from ? format(date?.from, "yyyy-MM-dd") : "",
+    date?.to
+      ? format(date?.to, "yyyy-MM-dd")
+      : date?.from
+      ? format(date?.from, "yyyy-MM-dd")
+      : ""
   );
 
-  console.log("Resume", resume);
+  const { banks, isErrorBanks, isLoadingBanks } = useGetBanks(token);
 
+  const handleOnChangeDate = (e: any) => {
+    revalidateResume();
+  };
+
+  const generateProgressIncomePercentage = () => {
+    if (!resume) return 0;
+    if (resume?.balance?.income - resume?.balance?.outcome < 0) return 0;
+    const maxProgress = resume?.balance?.income;
+    const actualProgress =
+      resume?.balance?.income - (resume?.balance?.outcome * 100) / maxProgress;
+    return actualProgress;
+  };
+
+  const handleGoToReports = (bank: string) => {
+    router.push(`/charts?bank=${bank}`);
+  };
+
+  if (isLoading || isLoadingBanks) {
+    return <HomeSkeletonDashboard />;
+  }
   return (
     <div className="w-full min-h-screen">
       <div>
         <div className="px-4 pt-4 text-foreground flex justify-between">
-          <div className="font-bold">Bienvenido, Brandon</div>
+          <div className="font-bold">Hola, bienvenido a tu Nidu!</div>
           <div className="flex gap-2">
-            <DateRangePicker />
+            <DateRangePicker
+              date={date}
+              setDate={setDate}
+              handleOnChangeDate={handleOnChangeDate}
+            />
           </div>
         </div>
       </div>
       <div className={styles.dashboardGrid}>
         <div
-          className={`${styles.dashboardCard} ${styles.col3} ${styles.rowSm} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.col3} ${styles.rowSm} ${styles.totalBalanceGrid} bg-white dark:bg-zinc-900`}
         >
           <div className={styles.cardHeader}>
             <div>
@@ -64,14 +106,21 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
             </div>
           </div>
           <div className={styles.cardModule}>
-            <div className="font-medium text-4xl">$45,450</div>
-            <div className="font-medium text-xs mt-1 text-gray-400">
-              +12% del mes pasado
+            <div className="font-medium text-4xl">
+              $
+              {resume
+                ? generateFormatNumber(
+                    resume?.balance?.income - resume?.balance?.outcome
+                  )
+                : 0}
             </div>
+            {/* <div className="font-medium text-xs mt-1 text-gray-400">
+              +12% del mes pasado
+                </div>*/}
           </div>
         </div>
         <div
-          className={`${styles.dashboardCard} ${styles.col5} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.col5} ${styles.rowSm} ${styles.balanceGrid} bg-white dark:bg-zinc-900`}
         >
           <div className="flex gap-2">
             <div className="w-2/4">
@@ -82,11 +131,11 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
               </div>
               <div className={styles.cardModule}>
                 <div className="font-medium text-2xl text-green-600">
-                  ${generateFormatNumber(10000)}
+                  ${resume ? generateFormatNumber(resume?.balance?.income) : 0}
                 </div>
-                <div className="font-medium text-xs mt-1 text-gray-400">
+                {/*<div className="font-medium text-xs mt-1 text-gray-400">
                   <span className="text-green-600">+12%</span> del mes pasado
-                </div>
+                </div>*/}
               </div>
             </div>
             <div className="w-2/4">
@@ -96,19 +145,22 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
                 </div>
               </div>
               <div className={styles.cardModule}>
-                <div className="font-medium text-2xl text-red-600">$5,230</div>
-                <div className="font-medium text-xs mt-1 text-gray-400">
-                  <span className="text-red-600">+12%</span> del mes pasado
+                <div className="font-medium text-2xl text-red-600">
+                  ${" "}
+                  {resume ? generateFormatNumber(resume?.balance?.outcome) : 0}
                 </div>
+                {/*<div className="font-medium text-xs mt-1 text-gray-400">
+                  <span className="text-red-600">+12%</span> del mes pasado
+            </div>*/}
               </div>
             </div>
           </div>
-          <div className="px-3">
-            <Progress value={33} />
+          <div className="px-3 mt-2">
+            <Progress value={generateProgressIncomePercentage()} />
           </div>
         </div>
         <div
-          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowXl} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowXl} ${styles.expensesGrid} bg-white dark:bg-zinc-900`}
         >
           <div className={styles.cardHeader}>
             <div>
@@ -173,7 +225,7 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
           </div>
         </div>
         <div
-          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowXl} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowXl} ${styles.newsGrid} bg-white dark:bg-zinc-900`}
         >
           <div className={styles.cardHeader}>
             <div>
@@ -210,7 +262,7 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
           </div>
         </div>
         <div
-          className={`${styles.dashboardCard} ${styles.colXl} ${styles.rowLg} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.colXl} ${styles.rowLg} ${styles.banksGrid} bg-white dark:bg-zinc-900`}
         >
           <div className={styles.cardHeader}>
             <div className="flex items-center justify-between gap-2 w-full">
@@ -242,18 +294,48 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
             </div>
           </div>
           <div className={styles.cardModule}>
-            <div className={styles.emptyStateAccounts}>
-              <Image
-                src={"/img/accounts.png"}
-                width={45}
-                height={53}
-                alt="accounts"
-              />
+            {banks && banks.length > 0 ? (
+              <div className={styles.banksSection}>
+                {banks.map((bank: any) => {
+                  return (
+                    <div
+                      key={bank}
+                      className={styles.bankElement}
+                      onClick={() => handleGoToReports(bank)}
+                    >
+                      <Image
+                        src={
+                          bankDictionary[bank as keyof typeof bankDictionary]
+                            .image
+                        }
+                        width={40}
+                        height={40}
+                        alt="news"
+                      />
+                      <p>
+                        {
+                          bankDictionary[bank as keyof typeof bankDictionary]
+                            .label
+                        }
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className={styles.emptyStateAccounts}>
+                <Image
+                  src={"/img/accounts.png"}
+                  width={45}
+                  height={53}
+                  alt="accounts"
+                />
 
-              <p className="text-gray-400 text-sm">
-                Agrega las transacciones de todas tus cuentas bancarias
-              </p>
-            </div>
+                <p className="text-gray-400 text-sm">
+                  Agrega las transacciones de todas tus cuentas bancarias
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

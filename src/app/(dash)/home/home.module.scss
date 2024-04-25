@@ -83,7 +83,7 @@
 
     .cardModule {
       flex-grow: 1;
-      overflow: hidden;
+      overflow: auto;
       padding: 0 16px 8px;
     }
   }
@@ -125,7 +125,7 @@
 
 .emptyStateNews {
   width: 100%;
-  height: 85%;
+  height: 75%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -133,39 +133,145 @@
   gap: 16px;
 }
 
-@media (min-width: 768px) {
+.banksSection {
+  --banks-grid-height: 78px;
+  --banks-grid-gap: 16px;
+  grid-gap: var(--banks-grid-gap);
+  display: grid;
+  gap: var(--banks-grid-gap);
+  grid-auto-flow: row dense;
+  grid-auto-rows: var(--banks-grid-height);
+  grid-template-columns: repeat(2, 1fr);
+
+  .bankElement {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 1200px) {
   .dashboardGrid {
-    //--dashboard-grid-columns: 2;
+    //--dashboard-grid-columns: 4;
 
     .dashboardCard {
+      &.expensesGrid {
+        order: 1;
+      }
+
+      &.newsGrid {
+        order: 3;
+      }
+
+      &.banksGrid {
+        order: 2;
+      }
+
+      &.colMd {
+        grid-column-start: span 8;
+      }
+      &.rowLg {
+        grid-row-start: span 3;
+      }
+      &.rowXl {
+        grid-row-start: span 2;
+      }
       &.md {
-        grid-column-start: span 2;
+        //grid-column-start: span 2;
       }
-
       &.lg {
-        grid-column-start: span 2;
+        //grid-column-start: span 2;
       }
-
       &.xl {
-        grid-column-start: span 2;
+        //grid-column-start: span 2;
       }
     }
   }
 }
 
-@media (min-width: 1200px) {
+@media (max-width: 1080px) {
   .dashboardGrid {
     //--dashboard-grid-columns: 4;
 
     .dashboardCard {
+      &.col3 {
+        grid-column-start: span 6;
+      }
+
+      &.col5 {
+        grid-column-start: span 10;
+      }
+
+      &.expensesGrid {
+        order: 1;
+      }
+
+      &.newsGrid {
+        order: 3;
+      }
+
+      &.banksGrid {
+        order: 2;
+      }
+
+      &.colMd {
+        grid-column-start: span 8;
+      }
+      &.rowLg {
+        grid-row-start: span 4;
+      }
+      &.rowXl {
+        grid-row-start: span 2;
+      }
       &.md {
-        grid-column-start: span 2;
+        //grid-column-start: span 2;
       }
       &.lg {
-        grid-column-start: span 2;
+        //grid-column-start: span 2;
       }
       &.xl {
-        grid-column-start: span 2;
+        //grid-column-start: span 2;
+      }
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  .dashboardGrid {
+    .dashboardCard {
+      &.col3 {
+        grid-column-start: span 16;
+      }
+
+      &.col5 {
+        grid-column-start: span 16;
+      }
+
+      &.expensesGrid {
+        grid-column-start: span 16;
+        grid-row-start: span 3;
+      }
+
+      &.newsGrid {
+        grid-column-start: span 16;
+        grid-row-start: span 3;
+      }
+
+      &.banksGrid {
+        grid-column-start: span 16;
+        grid-row-start: span 3;
+      }
+
+      &.md {
+        //grid-column-start: span 2;
+      }
+      &.lg {
+        //grid-column-start: span 2;
+      }
+      &.xl {
+        //grid-column-start: span 2;
       }
     }
   }

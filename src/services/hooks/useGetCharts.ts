@@ -8,16 +8,30 @@ export const useGetCharts = (
 ) => {
   const { mutate } = useSWRConfig();
   const getData = async () => {
+    // Construir la URL base
+    let apiEndpoint = "/api/resume";
+
+    // Agregar parámetros opcionales a la URL
+    const queryParameters = [];
+    if (startDate) {
+      queryParameters.push(`dateStart=${startDate}`);
+    }
+    if (endDate) {
+      queryParameters.push(`dateEnd=${endDate}`);
+    }
+
+    // Si hay parámetros, agrégalos a la URL base
+    if (queryParameters.length > 0) {
+      apiEndpoint += `?${queryParameters.join("&")}`;
+    }
+
     try {
-      const response = await axios.get(
-        `/api/resume?dateStart=${startDate}&dateEnd=${endDate}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(apiEndpoint, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (error) {
       throw new Error("Error al obtener los datos");
@@ -31,6 +45,6 @@ export const useGetCharts = (
     resume: data,
     isLoading,
     isError: error,
-    revalidateTransactions: () => mutate("charts/resume"),
+    revalidateResume: () => mutate("charts/resume"),
   };
 };

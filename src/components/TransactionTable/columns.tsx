@@ -7,7 +7,7 @@ import {
 import { Transaction } from "@/entities/transaccions";
 import utc from "dayjs/plugin/utc";
 import dayjs from "dayjs";
-import { categoryMapper } from "@/utils/dictionaries/categoryDictionary";
+import { getCategoryById } from "@/utils/dictionaries/categoryDictionary";
 dayjs.extend(utc);
 
 export const columns: ColumnDef<Transaction>[] = [
@@ -81,11 +81,8 @@ export const columns: ColumnDef<Transaction>[] = [
     accessorKey: "category",
     header: "Categoría",
     cell: ({ row }) => {
-      const noCategory = row.original.category === "uncategorized";
-
       const label =
-        categoryMapper[row.original.category as keyof typeof categoryMapper] ??
-        "Sin categoría";
+        getCategoryById(row?.original?.category)?.label ?? "Sin categoría";
       return <div className="font-medium">{`${label}`}</div>;
     },
   },
