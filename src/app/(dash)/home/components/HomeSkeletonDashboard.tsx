@@ -12,7 +12,7 @@ const HomeSkeletonDashboard = () => {
       </div>
       <div className={styles.dashboardGrid}>
         <div
-          className={`${styles.dashboardCard} ${styles.col3} ${styles.rowSm} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.col3} ${styles.rowSm} ${styles.totalBalanceGrid} bg-white dark:bg-zinc-900`}
         >
           <div className={styles.cardHeader}>
             <div>
@@ -26,7 +26,7 @@ const HomeSkeletonDashboard = () => {
           </div>
         </div>
         <div
-          className={`${styles.dashboardCard} ${styles.col5} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.col5} ${styles.rowSm} ${styles.balanceGrid} bg-white dark:bg-zinc-900`}
         >
           <div className="flex gap-2">
             <div className="w-2/4">
@@ -55,7 +55,7 @@ const HomeSkeletonDashboard = () => {
           </div>
         </div>
         <div
-          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowXl} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowXl} ${styles.expensesGrid} bg-white dark:bg-zinc-900`}
         >
           <div className={styles.cardHeader}>
             <div>
@@ -70,7 +70,7 @@ const HomeSkeletonDashboard = () => {
           </div>
         </div>
         <div
-          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowXl} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.colMd} ${styles.rowXl} ${styles.newsGrid} bg-white dark:bg-zinc-900`}
         >
           <div className={styles.cardHeader}>
             <div>
@@ -84,7 +84,7 @@ const HomeSkeletonDashboard = () => {
           </div>
         </div>
         <div
-          className={`${styles.dashboardCard} ${styles.colXl} ${styles.rowLg} bg-white dark:bg-zinc-900`}
+          className={`${styles.dashboardCard} ${styles.colXl} ${styles.rowLg} ${styles.banksGrid} bg-white dark:bg-zinc-900`}
         >
           <div className={styles.cardHeader}>
             <div className="flex items-center justify-between gap-2 w-full">
