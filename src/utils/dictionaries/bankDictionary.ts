@@ -12,7 +12,19 @@ export const bankDictionary = {
     image: "/img/bank/bbva.png",
   },
   bbva: {
-    label: "BBVA Débito",
+    label: "BBVA",
     image: "/img/bank/bbva.png",
+  },
+  "banamex-debit": {
+    label: "Citibanamex Débito",
+    image: "/img/bank/banamex.png",
+  },
+  "banamex-credit": {
+    label: "Citibanamex Crédito",
+    image: "/img/bank/banamex.png",
+  },
+  banamex: {
+    label: "Citibanamex",
+    image: "/img/bank/banamex.png",
   },
 };

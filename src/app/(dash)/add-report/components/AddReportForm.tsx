@@ -18,6 +18,8 @@ import { useToast } from "@/components/ui/use-toast";
 
 import styles from "../add-report.module.scss";
 import Link from "next/link";
+import { ToastAction } from "@/components/ui/toast";
+import { bankDictionary } from "@/utils/dictionaries/bankDictionary";
 
 type AddReportForm = {
   token: string;
@@ -32,8 +34,9 @@ const AddReportForm = ({ token }: AddReportForm) => {
 
   const BANK_URL = {
     amex: "/amex/credit",
-    bbvadebit: "/bbva/debit",
-    bbvacredit: "/bbva/credit",
+    "bbva-debit": "/bbva/debit",
+    "bbva-credit": "/bbva/credit",
+    "banamex-debit": "/banamex/debit",
   };
 
   const uploadFile = async () => {
@@ -54,10 +57,16 @@ const AddReportForm = ({ token }: AddReportForm) => {
       );
       if (response.status !== 200) throw new Error("Fallo al actualizar");
       toast({
-        title: "Transacción actualizada",
+        description: `Se han agregado con éxito las transacciones de tu cuenta ${
+          bankDictionary[bank as keyof typeof bankDictionary].label
+        }. Ahora podrás analizarlas desde tu Nidu.`,
       });
     } catch (error) {
       console.error(error);
+      toast({
+        variant: "destructive",
+        description: "Ups! Ocurrió un problema al subir tu documento.",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -78,8 +87,11 @@ const AddReportForm = ({ token }: AddReportForm) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="amex">AMEX</SelectItem>
-                <SelectItem value="bbvadebit">BBVA Débito</SelectItem>
-                <SelectItem value="bbvacredit">BBVA Crédito</SelectItem>
+                <SelectItem value="bbva-debit">BBVA Débito</SelectItem>
+                <SelectItem value="bbva-credit">BBVA Crédito</SelectItem>
+                <SelectItem value="banamex-debit">
+                  Citibanamex Débito
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>

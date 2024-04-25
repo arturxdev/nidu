@@ -26,7 +26,7 @@ import Image from "next/image";
 const Sidebar = () => {
   const SIDE_ELEMENTS_TOP = [
     {
-      tooltipLabel: "Dashboard",
+      tooltipLabel: "Inicio",
       icon: <Home className="h-5 w-5" />,
       link: "/home",
     },
