@@ -20,12 +20,14 @@ import styles from "../add-report.module.scss";
 import Link from "next/link";
 import { ToastAction } from "@/components/ui/toast";
 import { bankDictionary } from "@/utils/dictionaries/bankDictionary";
+import { useRouter } from "next/navigation";
 
 type AddReportForm = {
   token: string;
 };
 
 const AddReportForm = ({ token }: AddReportForm) => {
+  const router = useRouter();
   const [file, setFile] = useState<any>();
   const [bank, setBank] = useState<string>();
   const [bankName, setBankName] = useState<string>();
@@ -61,6 +63,7 @@ const AddReportForm = ({ token }: AddReportForm) => {
           bankDictionary[bank as keyof typeof bankDictionary].label
         }. Ahora podrás analizarlas desde tu Nidu.`,
       });
+      router.push("/home");
     } catch (error) {
       console.error(error);
       toast({
