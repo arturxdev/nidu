@@ -25,10 +25,7 @@ import { Label } from "@/components/ui/label";
 
 import { Pencil } from "lucide-react";
 import { Transaction } from "@/entities/transaccions";
-import {
-  categoryArray,
-  categoryArrayWithId,
-} from "@/utils/dictionaries/categoryDictionary";
+import { categoryArrayWithId } from "@/utils/dictionaries/categoryDictionary";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useGetTransactions } from "@/services/hooks/useGetTransactions";
@@ -122,7 +119,7 @@ export function UpdateTransactionSheet({
               <SelectGroup>
                 <SelectLabel>Categoría</SelectLabel>
                 {categoryArrayWithId.map((category) => (
-                  <SelectItem key={category.id} value={category.key}>
+                  <SelectItem key={category.id} value={category.id}>
                     {category.emoji} {category.label}
                   </SelectItem>
                 ))}
