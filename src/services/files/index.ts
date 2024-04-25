@@ -1,4 +1,5 @@
 import { processAMEXCredit } from './amex/credit';
+import { processBanamexDebit } from './banamex/debit';
 import { processBBVACredit } from './bvva/credit';
 import { processBBVADebit } from './bvva/debit';
 export const csvService = {
@@ -6,5 +7,6 @@ export const csvService = {
     credit: processBBVACredit,
     debit: processBBVADebit
   },
-  amex: { credit: processAMEXCredit }
+  amex: { credit: processAMEXCredit },
+  banamex: { debit: processBanamexDebit }
 }
