@@ -15,9 +15,35 @@ export const transactionService = {
       { descriptionUser: data.descriptionUser, category: data.category, omit: data.omit }
     );
   },
-  getBanks: async (userId: string) => {
+  getBanks: async (userId: string, startDate: Date, endDate: Date) => {
     await connectMongo();
-    return TransactionModel.find({ userId }).distinct("bank");
+    return TransactionModel.aggregate([
+      {
+        $match: {
+          date: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+          userId: userId,
+          omit: {
+            $in: [false, null],
+          },
+          type: "outcome",
+        },
+      },
+      {
+        $group: {
+          _id: {
+            bank: "$bank",
+            type: "$card"
+          },
+          totalAmount: { $sum: "$amount" }
+        },
+      },
+      {
+        $sort: { totalAmount: -1 },
+      },
+    ]);
   },
   get: async (
     limit: number = 10,
