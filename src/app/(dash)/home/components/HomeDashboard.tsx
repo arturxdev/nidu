@@ -315,7 +315,7 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
                       <p>
                         {
                           bankDictionary[bank as keyof typeof bankDictionary]
-                            .label
+                            ?.label
                         }
                       </p>
                     </div>
