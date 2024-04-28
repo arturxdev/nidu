@@ -4,6 +4,13 @@ const MY_NAMESPACE = "1b671a64-40d5-491e-99b0-da01ff1f3341";
 
 export const categoryArrayWithId = [
   {
+    id: uuidv5("uncategorized", MY_NAMESPACE),
+    label: "Sin clasificar",
+    emoji: "👀",
+    color: "#f9d4a1",
+    key: "uncategorized",
+  },
+  {
     id: uuidv5("subscriptions", MY_NAMESPACE),
     label: "Suscripciones",
     emoji: "🔐",

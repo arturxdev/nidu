@@ -48,9 +48,8 @@ export const columns: ColumnDef<Transaction>[] = [
       }).format(amount);
 
       return (
-        <div className="font-medium">{`${
-          !isIncome ? "-" : ""
-        }${formatted}`}</div>
+        <div className="font-medium">{`${!isIncome ? "-" : ""
+          }${formatted}`}</div>
       );
     },
   },
@@ -81,9 +80,8 @@ export const columns: ColumnDef<Transaction>[] = [
     accessorKey: "category",
     header: "Categoría",
     cell: ({ row }) => {
-      const label =
-        getCategoryById(row?.original?.category)?.label ?? "Sin categoría";
-      return <div className="font-medium">{`${label}`}</div>;
+      const label = getCategoryById(row?.original?.category);
+      return <div className="font-medium">{`${label?.emoji} ${label?.label}`}</div>;
     },
   },
   {
@@ -91,7 +89,7 @@ export const columns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const transaction = row.original;
 
-      const deleteTransaction = (id: string) => {};
+      const deleteTransaction = (id: string) => { };
 
       return (
         <div>

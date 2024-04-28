@@ -3,14 +3,20 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import TransactionTable from "@/components/TransactionTable/TransactionTable";
 import { transactionService } from "@/services/transaction";
-
+import dayjs from "dayjs";
+import "dayjs/plugin/utc";
 export default async function Home() {
   const { session, user } = await validateRequest();
   if (!user) {
     return redirect("/login");
   }
-
-  const banks = await transactionService.getBanks(user?.id);
+  const startDate = dayjs().utc(true);
+  const endDate = startDate.startOf("M");
+  const banks = await transactionService.getBanks(
+    user?.id,
+    startDate.toDate(),
+    endDate.toDate()
+  );
 
   return (
     <main className="p-10">

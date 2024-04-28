@@ -5,11 +5,13 @@ import connectMongo from '@/lib/mongoose';
 import { TransactionModel } from '@/models/transaccion';
 import 'dayjs/locale/es'
 import { logger } from '@/lib/logger';
+import { categoryArrayWithId } from '@/utils/dictionaries/categoryDictionary';
 dayjs.extend(customParseFormat)
 
 export async function processAMEXCredit(userId: string, file: File) {
   logger.info('processing file')
   try {
+    console.log(categoryArrayWithId)
     await connectMongo()
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
