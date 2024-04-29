@@ -34,8 +34,6 @@ type HomeDashboardProps = {
 
 const HomeDashboard = ({ token }: HomeDashboardProps) => {
   const router = useRouter();
-  const startDate = new Date("2024-04-03");
-  const endDate = new Date("2024-04-31");
 
   const [date, setDate] = useState<DateRange | undefined>({
     from: subDays(new Date(), 30),
@@ -61,10 +59,10 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
   const generateProgressIncomePercentage = () => {
     if (!resume) return 0;
     if (resume?.balance?.income - resume?.balance?.outcome < 0) return 0;
+
     const maxProgress = resume?.balance?.income;
-    const actualProgress =
-      resume?.balance?.income - (resume?.balance?.outcome * 100) / maxProgress;
-    return actualProgress;
+    const actualProgress = (resume?.balance?.outcome * 100) / maxProgress;
+    return 100 - actualProgress;
   };
 
   const handleGoToReports = (bank: string) => {
