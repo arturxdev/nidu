@@ -27,4 +27,8 @@ export const bankDictionary = {
     label: "Citibanamex",
     image: "/img/bank/banamex.png",
   },
+  all: {
+    label: "Todas mis cuentas",
+    image: "/img/bank/all.png",
+  },
 };

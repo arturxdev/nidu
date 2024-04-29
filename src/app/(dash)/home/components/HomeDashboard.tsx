@@ -7,10 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { DateRangePicker } from "@/components/nidu/DateRangePicker";
 
 import { adjustHexOpacity, generateFormatNumber } from "@/utils/generalHelper";
-import {
-  categoryArrayWithId,
-  categoryDictionary,
-} from "@/utils/dictionaries/categoryDictionary";
+import { categoryDictionary } from "@/utils/dictionaries/categoryDictionary";
 import { useGetCharts } from "@/services/hooks/useGetCharts";
 import {
   DropdownMenu,
@@ -26,7 +23,7 @@ import { bankDictionary } from "@/utils/dictionaries/bankDictionary";
 import HomeSkeletonDashboard from "./HomeSkeletonDashboard";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
-import { addDays, format, sub, subDays } from "date-fns";
+import { format, subDays } from "date-fns";
 
 type HomeDashboardProps = {
   token: string;
@@ -50,7 +47,17 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
       : ""
   );
 
-  const { banks, isErrorBanks, isLoadingBanks } = useGetBanks(token);
+  const { banks, isErrorBanks, isLoadingBanks, revalidateBanks } = useGetBanks(
+    token,
+    date?.from ? format(date?.from, "yyyy-MM-dd") : "",
+    date?.to
+      ? format(date?.to, "yyyy-MM-dd")
+      : date?.from
+      ? format(date?.from, "yyyy-MM-dd")
+      : ""
+  );
+
+  const banksWithFormat = banks?.map((bank: any) => bank._id.bank);
 
   const handleOnChangeDate = (e: any) => {
     revalidateResume();
@@ -292,9 +299,22 @@ const HomeDashboard = ({ token }: HomeDashboardProps) => {
             </div>
           </div>
           <div className={styles.cardModule}>
-            {banks && banks.length > 0 ? (
+            {banksWithFormat && banksWithFormat.length > 0 ? (
               <div className={styles.banksSection}>
-                {banks.map((bank: any) => {
+                <div
+                  className={styles.bankElement}
+                  onClick={() => handleGoToReports("all")}
+                >
+                  <Image
+                    src={bankDictionary["all"]?.image}
+                    width={40}
+                    height={40}
+                    alt="news"
+                  />
+                  <p>{bankDictionary["all"]?.label}</p>
+                </div>
+
+                {banksWithFormat.map((bank: any) => {
                   return (
                     <div
                       key={bank}

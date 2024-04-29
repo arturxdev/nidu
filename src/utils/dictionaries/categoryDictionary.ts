@@ -178,7 +178,7 @@ export const categoryDictionary: CategoryDictionary = {
 };
 
 categoryArrayWithId.forEach((category) => {
-  categoryDictionary[category.key] = {
+  categoryDictionary[category.id] = {
     label: category.label,
     emoji: category.emoji,
     color: category.color,

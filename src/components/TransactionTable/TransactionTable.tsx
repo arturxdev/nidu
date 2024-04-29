@@ -6,24 +6,47 @@ import { useGetTransactions } from "@/services/hooks/useGetTransactions";
 import { DateRangePicker } from "../nidu/DateRangePicker";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
-import { subDays } from "date-fns";
+import { format, subDays } from "date-fns";
 
 type TransactionTableProps = {
   token: string;
 };
 
 export default function TransactionTable({ token }: TransactionTableProps) {
-  const { transactions, isLoading, revalidateTransactions } =
-    useGetTransactions(token, 150, 0, "desc");
-  const { banks, isErrorBanks, isLoadingBanks } = useGetBanks(token);
-
   const [date, setDate] = useState<DateRange | undefined>({
     from: subDays(new Date(), 30),
     to: new Date(),
   });
 
+  const { transactions, isLoading, revalidateTransactions } =
+    useGetTransactions(
+      token,
+      150,
+      0,
+      "desc",
+      date?.from ? format(date?.from, "yyyy-MM-dd") : "",
+      date?.to
+        ? format(date?.to, "yyyy-MM-dd")
+        : date?.from
+        ? format(date?.from, "yyyy-MM-dd")
+        : ""
+    );
+
+  const { banks, isErrorBanks, isLoadingBanks, revalidateBanks } = useGetBanks(
+    token,
+    date?.from ? format(date?.from, "yyyy-MM-dd") : "",
+    date?.to
+      ? format(date?.to, "yyyy-MM-dd")
+      : date?.from
+      ? format(date?.from, "yyyy-MM-dd")
+      : ""
+  );
+
+  const banksWithFormat = banks?.map((bank: any) => bank._id.bank);
+
   const handleOnChangeDate = (e: any) => {
     revalidateTransactions();
+    revalidateBanks();
   };
 
   if (isLoading) {
@@ -43,7 +66,11 @@ export default function TransactionTable({ token }: TransactionTableProps) {
         </div>
       </div>
 
-      <DataTable columns={columns} data={transactions?.results} banks={banks} />
+      <DataTable
+        columns={columns}
+        data={transactions?.results}
+        banks={banksWithFormat}
+      />
     </div>
   );
 }
