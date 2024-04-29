@@ -10,7 +10,7 @@ export default async function Home() {
   if (!user) {
     return redirect("/login");
   }
-  const startDate = dayjs().utc(true);
+  const startDate = dayjs();
   const endDate = startDate.startOf("M");
   const banks = await transactionService.getBanks(
     user?.id,

@@ -5,27 +5,29 @@ import { transactionService } from "@/services/transaction";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
-    const filter = FilterSchema
-      .omit({ order: true, limit: true, skip: true })
+    const filter = FilterSchema.omit({ order: true, limit: true, skip: true })
       .required({ dateStart: true, dateEnd: true })
       .parse({
-        dateStart: request.nextUrl.searchParams.get('dateStart'),
-        dateEnd: request.nextUrl.searchParams.get('dateEnd'),
-      })
-    await connectMongo()
+        dateStart: request.nextUrl.searchParams.get("dateStart"),
+        dateEnd: request.nextUrl.searchParams.get("dateEnd"),
+      });
+    await connectMongo();
     const authorizationHeader = request.headers.get("Authorization");
     const sessionId = lucia.readBearerToken(authorizationHeader ?? "");
     if (!sessionId) {
       return new Response(null, {
-        status: 401
+        status: 401,
       });
     }
     const { user } = await lucia.validateSession(sessionId);
-    if (!user?.id) throw new Error("User not found")
-    const banks = await transactionService.getBanks(user.id, filter.dateStart, filter.dateEnd)
-    return NextResponse.json(banks, { status: 200 })
+    if (!user?.id) throw new Error("User not found");
+    const banks = await transactionService.getBanks(
+      user.id,
+      filter.dateStart ?? undefined,
+      filter.dateEnd ?? undefined
+    );
+    return NextResponse.json(banks, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error, { status: 400 })
+    return NextResponse.json(error, { status: 400 });
   }
 }
-

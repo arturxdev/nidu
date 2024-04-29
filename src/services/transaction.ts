@@ -1,6 +1,9 @@
 import { Transaction } from "@/entities/transaccions";
 import connectMongo from "@/lib/mongoose";
 import { TransactionModel } from "@/models/transaccion";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 import { SortOrder } from "mongoose";
 
 export const transactionService = {
@@ -12,17 +15,24 @@ export const transactionService = {
     await connectMongo();
     return TransactionModel.updateOne(
       { _id: transactionId },
-      { descriptionUser: data.descriptionUser, category: data.category, omit: data.omit }
+      {
+        descriptionUser: data.descriptionUser,
+        category: data.category,
+        omit: data.omit,
+      }
     );
   },
-  getBanks: async (userId: string, startDate: Date, endDate: Date) => {
+  getBanks: async (userId: string, startDate?: Date, endDate?: Date) => {
+    const today = dayjs().utc(true);
+    const start = startDate ?? today.startOf("month");
+    const end = endDate ?? today;
     await connectMongo();
     return TransactionModel.aggregate([
       {
         $match: {
           date: {
-            $gte: startDate,
-            $lte: endDate,
+            $gte: start,
+            $lte: end,
           },
           userId: userId,
           omit: {
@@ -35,9 +45,9 @@ export const transactionService = {
         $group: {
           _id: {
             bank: "$bank",
-            type: "$card"
+            type: "$card",
           },
-          totalAmount: { $sum: "$amount" }
+          totalAmount: { $sum: "$amount" },
         },
       },
       {
@@ -49,23 +59,36 @@ export const transactionService = {
     limit: number = 10,
     page: number = 0,
     order: string = "desc",
-    userId: string
+    userId: string,
+    startDate?: Date,
+    endDate?: Date
   ) => {
+    const today = dayjs().utc(true);
+    const start = startDate ?? today.startOf("month");
+    const end = endDate ?? today;
     await connectMongo();
-    const transactionsTotal = await TransactionModel.find({ userId });
-    const transactions = await TransactionModel.find({ userId })
+    const transactionsTotal = await TransactionModel.find({
+      userId,
+    });
+    const transactions = await TransactionModel.find({
+      date: {
+        $gte: start,
+        $lte: end,
+      },
+    })
       .skip(page)
       .limit(limit)
       .sort({ date: order as SortOrder });
-
-    const transformedResults = transactions.map((result: any) => {
+    const transformedResults: any = transactions.map((result: any) => {
       const {
         _doc: { _id, __v, ...restDataUser },
       } = result;
-      // console.log(_id.toString(), restDataUser.date.toISOString(), restDataUser.amount, restDataUser.description, restDataUser.omit)
-      return { id: _id.toString(), date: restDataUser.date.toString(), dateParsed: restDataUser.date.toISOString(), ...restDataUser };
+      return {
+        id: _id.toString(),
+        date: restDataUser.date.toString(),
+        ...restDataUser,
+      };
     });
-    // console.log(transformedResults)
     return {
       total: transactionsTotal.length,
       limit,
