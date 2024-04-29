@@ -69,8 +69,13 @@ export const transactionService = {
     await connectMongo();
     const transactionsTotal = await TransactionModel.find({
       userId,
+      date: {
+        $gte: start,
+        $lte: end,
+      },
     });
     const transactions = await TransactionModel.find({
+      userId,
       date: {
         $gte: start,
         $lte: end,
