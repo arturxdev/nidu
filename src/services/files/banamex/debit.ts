@@ -64,13 +64,13 @@ export async function processBanamexDebit(userId: string, file: File) {
       status: "processed",
     };
     console.log(payload.type, payload.amount);
-    // const operationExists = await TransactionModel.findOne({ bankId })
-    // if (operationExists) {
-    //   logger.info('operation already exists')
-    //   continue;
-    // }
-    // const operationSaved = await TransactionModel.create({ ...payload })
-    // logger.info('operation saved')
+    const operationExists = await TransactionModel.findOne({ bankId });
+    if (operationExists) {
+      logger.info("operation already exists");
+      continue;
+    }
+    const operationSaved = await TransactionModel.create({ ...payload });
+    logger.info("operation saved");
   }
   return;
 }

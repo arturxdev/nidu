@@ -1,9 +1,15 @@
 import connectMongo from "@/lib/mongoose";
 import { TransactionModel } from "@/models/transaccion";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 
 export const chartService = {
-  resume: async (userId: string, startDate: Date, endDate: Date) => {
+  resume: async (userId: string, startDate?: Date, endDate?: Date) => {
     await connectMongo();
+    const today = dayjs().utc(true);
+    const start = startDate ?? today.startOf("month");
+    const end = endDate ?? today;
     const balancePre = await TransactionModel.aggregate([
       {
         $match: {
